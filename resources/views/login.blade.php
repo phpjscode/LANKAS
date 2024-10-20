@@ -11,7 +11,7 @@
                             @csrf <!-- Token CSRF untuk keamanan -->
 
                             <div>
-                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                                 <input type="email" name="email" id="email"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2.5"
                                     placeholder="name@company.com" required="">
@@ -33,17 +33,9 @@
                                         <label for="remember" class="text-gray-500">Remember me</label>
                                     </div>
                                 </div>
-                                <a href="https://wa.me/6281521550913" target="_blank"
-                                    class="text-sm font-medium text-purple-600 hover:underline">Forgot
-                                    password?</a>
                             </div>
                             <button type="submit"
-                                class="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign
-                                in</button>
-                            <p class="text-sm font-light text-gray-500">
-                                Don’t have an account yet? <a href="/register"
-                                    class="font-medium text-purple-600 hover:underline">Register Here</a>
-                            </p>
+                                class="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Login</button>
                         </form>
 
                         @if ($errors->any())
