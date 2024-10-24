@@ -13,3 +13,4 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
+Route::middleware('auth')->post('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');

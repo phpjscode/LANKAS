@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+
+
 
 class AuthController extends Controller
 {
@@ -77,5 +82,28 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken(); // Mencegah CSRF
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();  // Ambil user terautentikasi
+
+        // Validasi input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id),
+            ],
+        ]);
+
+        // Perbarui data user
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->save();  // Simpan perubahan
+
+        return back()->with('success', 'Profile updated successfully.');
     }
 }
