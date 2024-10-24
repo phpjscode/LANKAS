@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<x-head></x-head>
+<head>
+    <x-head :title="$title"></x-head>
+</head>
+
 
 <body>
     <x-side-bar></x-side-bar>
