@@ -22,13 +22,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Tabel Password Reset Tokens
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email', 255)->primary();
-            $table->string('token', 255);
-            $table->timestamp('created_at')->nullable();
-        });
-
         // Tabel Sessions
         Schema::create('sessions', function (Blueprint $table) {
             $table->uuid('id')->primary(); // UUID untuk keamanan

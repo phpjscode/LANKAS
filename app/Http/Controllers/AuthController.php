@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Support\Facades\Hash;
 
 
 class AuthController extends Controller
@@ -105,5 +105,30 @@ class AuthController extends Controller
         $user->save();  // Simpan perubahan
 
         return back()->with('success', 'Profile updated successfully.');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:8',
+        ]);
+
+        $user = Auth::user();
+
+        // Cek apakah password lama cocok
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->withErrors(['old_password' => 'The old password is incorrect.']);
+        }
+
+        // Update password baru
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        // Logout dan redirect ke halaman login
+        Auth::logout();
+
+        return redirect()->route('login')->with('status', 'Password updated successfully. Please log in again.');
     }
 }

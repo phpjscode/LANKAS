@@ -12,9 +12,14 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                         Login to your account
                     </h1>
+                    @if (session('status'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                            role="alert">
+                            <span class="block sm:inline">{{ session('status') }}</span>
+                        </div>
+                    @endif
                     <form class="space-y-4 md:space-y-6" action="{{ route('login') }}" method="POST" id="loginForm">
                         @csrf <!-- Token CSRF untuk keamanan -->
-
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                             <input type="email" name="email" id="email"
