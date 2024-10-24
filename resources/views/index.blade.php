@@ -1,6 +1,6 @@
 <x-layout :title="$title">
     @section('page')
-        <main class="bg-slate-100 p-4 sm:ml-64">
+        <main class="bg-slate-100 pt-20 p-4 sm:ml-64">
             <section>
                 <div class="px-4 py-6 font-poppins">
                     <div>
@@ -18,7 +18,7 @@
                                     <p class="text-lg">Siswa</p>
                                 </div>
                                 <div>
-                                    <p class="text-sm opacity-80">Jumlah Siswa: totalsiswa</p>
+                                    <p class="text-sm opacity-80">Jumlah Siswa: {{ $totalSiswa }}</p>
                                 </div>
                                 <a href="" class="bg-sky-500 h-10 w-12 flex items-center justify-center rounded-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#ffffff"

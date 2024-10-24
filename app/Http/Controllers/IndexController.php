@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Siswa; // Pastikan model Siswa sudah diimport
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth; // Import facade Auth jika belum
 
 class IndexController extends Controller
 {
@@ -15,9 +15,13 @@ class IndexController extends Controller
             return redirect()->route('login');
         }
 
-        // Jika sudah login, kirimkan $title ke view
+        // Menghitung jumlah siswa
+        $totalSiswa = Siswa::count();
+
+        // Jika sudah login, kirimkan $title dan $totalSiswa ke view
         return view('index', [
-            'title' => 'Dashboard'  // Pastikan ini dikirim
+            'title' => 'Dashboard',  // Judul halaman
+            'totalSiswa' => $totalSiswa,  // Jumlah siswa yang dihitung
         ]);
     }
 }
