@@ -7,35 +7,75 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Menampilkan form login
+    /**
+     * Menampilkan form login.
+     */
     public function showLoginForm()
     {
-        return view('login'); // Pastikan ini merujuk ke file view yang sesuai
+        return view('login', ['title' => 'Login']);
     }
 
-    // Memproses login
+    /**
+     * Memproses login.
+     */
     public function login(Request $request)
     {
         // Validasi input
-        $credentials = $request->validate([
+        $credentials = $this->validateLogin($request);
+
+        // Cek kredensial dan login
+        if ($this->attemptLogin($credentials, $request)) {
+            return redirect('/')->with('success', 'Login berhasil!');
+        }
+
+        // Jika login gagal, kembali dengan pesan error
+        return back()->withErrors(['email' => 'Email atau Password salah']);
+    }
+
+    /**
+     * Proses logout.
+     */
+    public function logout(Request $request)
+    {
+        $this->performLogout($request);
+
+        return redirect('/login')->with('success', 'Anda telah logout.');
+    }
+
+    /**
+     * Validasi input login.
+     */
+    protected function validateLogin(Request $request)
+    {
+        return $request->validate([
             'email' => 'required|email',
             'password' => 'required',
             'remember' => 'boolean',
         ]);
+    }
 
-        // Mengambil nilai 'remember' dari request
+    /**
+     * Cek kredensial dan login.
+     */
+    protected function attemptLogin(array $credentials, Request $request): bool
+    {
         $remember = $credentials['remember'] ?? false;
 
-        // Cek kredensial
-        if (Auth::attempt([
-            'email' => $credentials['email'],
-            'password' => $credentials['password']
-        ], $remember)) {
-            // Login sukses, redirect ke halaman beranda
-            return redirect('/')->with('success', 'Login berhasil!');
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate(); // Regenerasi sesi untuk mencegah sesi fixasi
+            return true; // Login sukses
         }
 
-        // Jika login gagal, kembali ke form dengan pesan error yang lebih umum
-        return back()->withErrors(['email' => 'Email atau Password salah']);
+        return false; // Login gagal
+    }
+
+    /**
+     * Logout pengguna dan invalidate sesi.
+     */
+    protected function performLogout(Request $request): void
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken(); // Mencegah CSRF
     }
 }

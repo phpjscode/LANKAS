@@ -12,7 +12,7 @@ class Head extends Component
      * Create a new component instance.
      */
     public string $title;
-    public function __construct(string $title)
+    public function __construct(string $title  = "Halaman Default")
     {
         $this->title = $title;
     }
