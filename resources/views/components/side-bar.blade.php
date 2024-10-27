@@ -27,7 +27,7 @@
                     <path
                         d="M480-440q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0-80q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0 440q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-400Zm0-315-240 90v189q0 54 15 105t41 96q42-21 88-33t96-12q50 0 96 12t88 33q26-45 41-96t15-105v-189l-240-90Zm0 515q-36 0-70 8t-65 22q29 30 63 52t72 34q38-12 72-34t63-52q-31-14-65-22t-70-8Z" />
                 </svg>
-                <a href="{{ route('profile') }}" class="block py-2">Profile</a>
+                <a href="{{ route('profile') }}" class="block py-2">Profil</a>
             </li>
             <li class="flex items-center px-4 gap-x-1 hover:bg-slate-100">
                 <form action="{{ route('logout') }}" method="POST" class="flex items-center w-full">
@@ -38,7 +38,7 @@
                             <path
                                 d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
                         </svg>
-                        <span class="block py-2">Logout</span>
+                        <span class="block py-2">Keluar</span>
                     </button>
                 </form>
             </li>

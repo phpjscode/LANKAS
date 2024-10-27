@@ -21,7 +21,7 @@
                             <path
                                 d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
                         </svg>
-                        <p class="text-sm text-white">Edit</p>
+                        <p class="text-sm text-white">Ubah</p>
                     </button>
 
                     <div id="edit-modal" tabindex="-1" aria-hidden="true"
@@ -32,7 +32,7 @@
                                 <!-- Modal header -->
                                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                                     <h3 class="text-xl text-gray-900">
-                                        Edit Profile
+                                        Ubah Profil
                                     </h3>
                                     <button type="button"
                                         class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -45,6 +45,7 @@
                                         <span class="sr-only">Close modal</span>
                                     </button>
                                 </div>
+                                <hr class="border border-purple-700">
                                 <!-- Modal body -->
                                 <div class="p-4 md:p-5">
                                     @if (session('success'))
@@ -80,7 +81,7 @@
                                                 <path
                                                     d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z" />
                                             </svg>
-                                            <p>Save</p>
+                                            <p>Simpan</p>
                                         </button>
                                     </form>
 
@@ -95,7 +96,7 @@
                             <path
                                 d="M80-200v-80h800v80H80Zm46-242-52-30 34-60H40v-60h68l-34-58 52-30 34 58 34-58 52 30-34 58h68v60h-68l34 60-52 30-34-60-34 60Zm320 0-52-30 34-60h-68v-60h68l-34-58 52-30 34 58 34-58 52 30-34 58h68v60h-68l34 60-52 30-34-60-34 60Zm320 0-52-30 34-60h-68v-60h68l-34-58 52-30 34 58 34-58 52 30-34 58h68v60h-68l34 60-52 30-34-60-34 60Z" />
                         </svg>
-                        <p class="text-sm text-white">Change Password</p>
+                        <p class="text-sm text-white">Ganti Kata Sandi</p>
                     </button>
 
                     <div id="changepassword-modal" tabindex="-1" aria-hidden="true"
@@ -106,7 +107,7 @@
                                 <!-- Modal header -->
                                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                                     <h3 class="text-xl text-gray-900">
-                                        Change Password
+                                        Ganti Kata Sandi
                                     </h3>
                                     <button type="button"
                                         class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -119,6 +120,7 @@
                                         <span class="sr-only">Close modal</span>
                                     </button>
                                 </div>
+                                <hr class="border border-purple-700">
                                 <!-- Modal body -->
                                 <div class="p-4 md:p-5">
                                     <form class="space-y-4 -mt-4" action="{{ route('profile.update-password') }}"
@@ -127,9 +129,9 @@
 
                                         <div>
                                             <label for="old_password"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Old Password</label>
+                                                class="block mb-2 text-sm font-medium text-gray-900">Kata Sandi Lama</label>
                                             <input type="password" name="old_password" id="old_password"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 pr-16"
                                                 value="{{ old('old_password') }}" required />
                                             @error('old_password')
                                                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -138,7 +140,8 @@
 
                                         <div>
                                             <label for="new_password"
-                                                class="block mb-2 text-sm font-medium text-gray-900">New Password</label>
+                                                class="block mb-2 text-sm font-medium text-gray-900">Kata Sandi
+                                                Baru</label>
                                             <input type="password" name="new_password" id="new_password"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                                                 value="{{ old('new_password') }}" required />
@@ -154,7 +157,7 @@
                                                 <path
                                                     d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z" />
                                             </svg>
-                                            <p>Save</p>
+                                            <p>Simpan</p>
                                         </button>
                                     </form>
                                 </div>

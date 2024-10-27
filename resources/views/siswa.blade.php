@@ -9,21 +9,26 @@
                             <th class="px-6 py-3">Nama Siswa</th>
                             <th class="px-6 py-3">Jenis Kelamin</th>
                             <th class="px-6 py-3">No. Telepon</th>
+                            <th class="px-6 py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($siswa as $index => $item)
-                            <tr class="bg-white border-b">
+                            <tr class="bg-white border-b"">
                                 <td class="px-6 py-4 font-medium text-gray-900">
                                     {{ $loop->iteration }}
                                 </td>
                                 <td class="px-6 py-4">{{ $item->nama_siswa }}</td>
                                 <td class="px-6 py-4">{{ $item->jenis_kelamin }}</td>
                                 <td class="px-6 py-4">{{ $item->no_telepon }}</td>
+                                <td class="px-6 py-4">
+                                    <button class="btn-ubah text-blue-500 hover:underline">Ubah</button>
+                                    <button class="text-red-500 hover:underline">Hapus</button>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-4 text-center">Data siswa tidak tersedia.</td>
+                                <td colspan="5" class="px-6 py-4 text-center">Data siswa tidak tersedia.</td>
                             </tr>
                         @endforelse
                     </tbody>
