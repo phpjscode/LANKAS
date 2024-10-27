@@ -15,13 +15,10 @@ class IndexController extends Controller
             return redirect()->route('login');
         }
 
-        // Menghitung jumlah siswa
-        $totalSiswa = Siswa::count();
-
         // Jika sudah login, kirimkan $title dan $totalSiswa ke view
         return view('index', [
             'title' => 'Dashboard',  // Judul halaman
-            'totalSiswa' => $totalSiswa,  // Jumlah siswa yang dihitung
+            'totalSiswa' => Siswa::count(),  // Jumlah siswa yang dihitung
         ]);
     }
 }

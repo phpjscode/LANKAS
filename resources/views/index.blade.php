@@ -20,7 +20,8 @@
                                 <div>
                                     <p class="text-sm opacity-80">Jumlah Siswa: {{ $totalSiswa }}</p>
                                 </div>
-                                <a href="" class="bg-sky-500 h-10 w-12 flex items-center justify-center rounded-lg">
+                                <a href="{{ route('siswa') }}"
+                                    class="bg-sky-500 h-10 w-12 flex items-center justify-center rounded-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#ffffff"
                                         class="h-6 w-6">
                                         <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
