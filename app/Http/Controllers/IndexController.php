@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth; // Import facade Auth jika belum
 
 class IndexController extends Controller
 {
-    public function index()
+    public function showDashboard()
     {
         // Cek apakah pengguna sudah login
         if (!Auth::check()) {
