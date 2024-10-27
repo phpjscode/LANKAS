@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -25,32 +23,64 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // Validasi input
         $credentials = $this->validateLogin($request);
 
-        // Cek kredensial dan login
         if ($this->attemptLogin($credentials, $request)) {
             return redirect('/')->with('success', 'Login berhasil!');
         }
 
-        // Jika login gagal, kembali dengan pesan error
         return back()->withErrors(['email' => 'Email atau Password salah']);
     }
 
     /**
-     * Proses logout.
+     * Memproses logout dan mengakhiri sesi.
      */
     public function logout(Request $request)
     {
-        $this->performLogout($request);
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken(); // Mencegah CSRF
 
         return redirect('/login')->with('success', 'Anda telah logout.');
     }
 
     /**
+     * Memperbarui profil pengguna.
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $this->validateProfile($request, $user);
+
+        $user->update($validated);
+
+        return back()->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    /**
+     * Memperbarui password pengguna.
+     */
+    public function updatePassword(Request $request)
+    {
+        $this->validatePassword($request);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->withErrors(['old_password' => 'Password lama salah.']);
+        }
+
+        $user->update(['password' => Hash::make($request->new_password)]);
+
+        Auth::logout();
+        return redirect()->route('login')->with('status', 'Password berhasil diperbarui. Silakan login kembali.');
+    }
+
+    /**
      * Validasi input login.
      */
-    protected function validateLogin(Request $request)
+    protected function validateLogin(Request $request): array
     {
         return $request->validate([
             'email' => 'required|email',
@@ -60,36 +90,26 @@ class AuthController extends Controller
     }
 
     /**
-     * Cek kredensial dan login.
+     * Mencoba login pengguna.
      */
     protected function attemptLogin(array $credentials, Request $request): bool
     {
         $remember = $credentials['remember'] ?? false;
 
         if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate(); // Regenerasi sesi untuk mencegah sesi fixasi
-            return true; // Login sukses
+            $request->session()->regenerate(); // Mencegah sesi fixasi
+            return true;
         }
 
-        return false; // Login gagal
+        return false;
     }
 
     /**
-     * Logout pengguna dan invalidate sesi.
+     * Validasi data profil pengguna.
      */
-    protected function performLogout(Request $request): void
+    protected function validateProfile(Request $request, User $user): array
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken(); // Mencegah CSRF
-    }
-
-    public function updateProfile(Request $request)
-    {
-        $user = Auth::user();  // Ambil user terautentikasi
-
-        // Validasi input
-        $validated = $request->validate([
+        return $request->validate([
             'name' => 'required|string|max:255',
             'email' => [
                 'required',
@@ -98,37 +118,16 @@ class AuthController extends Controller
                 Rule::unique('users')->ignore($user->id),
             ],
         ]);
-
-        // Perbarui data user
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-        $user->save();  // Simpan perubahan
-
-        return back()->with('success', 'Profile updated successfully.');
     }
 
-    public function updatePassword(Request $request)
+    /**
+     * Validasi input perubahan password.
+     */
+    protected function validatePassword(Request $request): void
     {
-        // Validasi input
         $request->validate([
             'old_password' => 'required',
             'new_password' => 'required|min:8',
         ]);
-
-        $user = Auth::user();
-
-        // Cek apakah password lama cocok
-        if (!Hash::check($request->old_password, $user->password)) {
-            return back()->withErrors(['old_password' => 'The old password is incorrect.']);
-        }
-
-        // Update password baru
-        $user->password = Hash::make($request->new_password);
-        $user->save();
-
-        // Logout dan redirect ke halaman login
-        Auth::logout();
-
-        return redirect()->route('login')->with('status', 'Password updated successfully. Please log in again.');
     }
 }
