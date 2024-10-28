@@ -35,7 +35,7 @@
                                 </td>
 
                                 <td class="px-6 py-4 flex items-center justify-center">
-                                    <button class="text-red-500 hover:underline">Hapus</button>
+                                    <button class="text-red-500 hover:underline">Edit</button>
                                 </td>
                             </tr>
                         @empty
