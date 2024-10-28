@@ -18,3 +18,4 @@ Route::middleware('auth')->post('/profile/update', [AuthController::class, 'upda
 Route::post('/profile/update-password', [AuthController::class, 'updatePassword'])->name('profile.update-password');
 
 Route::get('/siswa', [SiswaController::class, 'showSiswa'])->name('siswa');
+Route::patch('/siswa/{id}', [SiswaController::class, 'updateSiswa'])->name('siswa.update');

@@ -14,4 +14,19 @@ class SiswaController extends Controller
             'title' => 'Siswa'
         ]);
     }
+
+    public function updateSiswa(Request $request, $id)
+{
+    $validatedData = $request->validate([
+        'nama_siswa' => 'nullable|string|max:255',
+        'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan',
+        'no_telepon' => 'nullable|string|max:15',
+    ]);
+
+    $siswa = Siswa::findOrFail($id);
+    $siswa->update($validatedData);
+
+    return response()->json(['message' => 'Data berhasil diperbarui!']);
+}
+
 }
