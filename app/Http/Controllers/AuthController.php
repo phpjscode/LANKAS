@@ -32,62 +32,7 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'Email atau Password salah']);
     }
 
-    /**
-     * Memproses logout dan mengakhiri sesi.
-     */
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken(); // Mencegah CSRF
 
-        return redirect('/login')->with('success', 'Anda telah logout.');
-    }
-
-    /**
-     * Memperbarui profil pengguna.
-     */
-    public function updateProfile(Request $request)
-    {
-        $user = Auth::user();
-
-        $validated = $this->validateProfile($request, $user);
-
-        $user->update($validated);
-
-        return back()->with('success', 'Profil berhasil diperbarui.');
-    }
-
-    /**
-     * Memperbarui password pengguna.
-     */
-    public function updatePassword(Request $request)
-    {
-        $this->validatePassword($request);
-
-        $user = Auth::user();
-
-        if (!Hash::check($request->old_password, $user->password)) {
-            return back()->withErrors(['old_password' => 'Password lama salah.']);
-        }
-
-        $user->update(['password' => Hash::make($request->new_password)]);
-
-        Auth::logout();
-        return redirect()->route('login')->with('status', 'Password berhasil diperbarui. Silakan login kembali.');
-    }
-
-    /**
-     * Validasi input login.
-     */
-    protected function validateLogin(Request $request): array
-    {
-        return $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-            'remember' => 'boolean',
-        ]);
-    }
 
     /**
      * Mencoba login pengguna.
@@ -105,29 +50,26 @@ class AuthController extends Controller
     }
 
     /**
-     * Validasi data profil pengguna.
+     * Memproses logout dan mengakhiri sesi.
      */
-    protected function validateProfile(Request $request, User $user): array
+    public function logout(Request $request)
     {
-        return $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
-            ],
-        ]);
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken(); // Mencegah CSRF
+
+        return redirect('/login')->with('success', 'Anda telah logout.');
     }
 
     /**
-     * Validasi input perubahan password.
+     * Validasi input login.
      */
-    protected function validatePassword(Request $request): void
+    protected function validateLogin(Request $request): array
     {
-        $request->validate([
-            'old_password' => 'required',
-            'new_password' => 'required|min:8',
+        return $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'remember' => 'boolean',
         ]);
     }
 }

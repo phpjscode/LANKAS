@@ -45,7 +45,6 @@
                                         <span class="sr-only">Close modal</span>
                                     </button>
                                 </div>
-                                <hr class="border border-purple-700">
                                 <!-- Modal body -->
                                 <div class="p-4 md:p-5">
                                     @if (session('success'))
@@ -61,7 +60,7 @@
                                                 class="block mb-2 text-sm font-medium text-gray-900">Nama</label>
                                             <input type="text" name="name" id="name"
                                                 value="{{ old('name', Auth::user()->name) }}"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                                 required />
                                         </div>
 
@@ -70,21 +69,17 @@
                                                 class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                                             <input type="email" name="email" id="email"
                                                 value="{{ old('email', Auth::user()->email) }}"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                                 required />
                                         </div>
 
-                                        <button type="submit"
-                                            class="flex items-center justify-center gap-x-2 w-full text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#ffffff"
-                                                class="w-6 h-6">
-                                                <path
-                                                    d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z" />
-                                            </svg>
-                                            <p>Simpan</p>
-                                        </button>
+                                        <div class="flex justify-end">
+                                            <button type="button" class="mr-2 bg-gray-500 text-white px-4 py-2 rounded"
+                                                data-modal-hide="edit-modal">Batal</button>
+                                            <button type="submit"
+                                                class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
+                                        </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -107,7 +102,7 @@
                                 <!-- Modal header -->
                                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                                     <h3 class="text-xl text-gray-900">
-                                        Ganti Kata Sandi
+                                        Ubah Profil
                                     </h3>
                                     <button type="button"
                                         class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -120,7 +115,6 @@
                                         <span class="sr-only">Close modal</span>
                                     </button>
                                 </div>
-                                <hr class="border border-purple-700">
                                 <!-- Modal body -->
                                 <div class="p-4 md:p-5">
                                     <form class="space-y-4 -mt-4" action="{{ route('profile.update-password') }}"
@@ -131,7 +125,7 @@
                                             <label for="old_password"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Kata Sandi Lama</label>
                                             <input type="password" name="old_password" id="old_password"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 pr-16"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 pr-16"
                                                 value="{{ old('old_password') }}" required />
                                             @error('old_password')
                                                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -143,22 +137,19 @@
                                                 class="block mb-2 text-sm font-medium text-gray-900">Kata Sandi
                                                 Baru</label>
                                             <input type="password" name="new_password" id="new_password"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                                 value="{{ old('new_password') }}" required />
                                             @error('new_password')
                                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                                             @enderror
                                         </div>
 
-                                        <button type="submit"
-                                            class="flex items-center justify-center gap-x-2 w-full text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
-                                                fill="#ffffff" class="w-6 h-6">
-                                                <path
-                                                    d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z" />
-                                            </svg>
-                                            <p>Simpan</p>
-                                        </button>
+                                        <div class="flex justify-end">
+                                            <button type="button" class="mr-2 bg-gray-500 text-white px-4 py-2 rounded"
+                                                data-modal-hide="changepassword-modal">Batal</button>
+                                            <button type="submit"
+                                                class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>

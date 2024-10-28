@@ -16,17 +16,16 @@ class SiswaController extends Controller
     }
 
     public function updateSiswa(Request $request, $id)
-{
-    $validatedData = $request->validate([
-        'nama_siswa' => 'nullable|string|max:255',
-        'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan',
-        'no_telepon' => 'nullable|string|max:15',
-    ]);
+    {
+        $request->validate([
+            'nama_siswa' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'no_telepon' => 'required|string|max:15',
+        ]);
 
-    $siswa = Siswa::findOrFail($id);
-    $siswa->update($validatedData);
+        $siswa = Siswa::findOrFail($id);
+        $siswa->update($request->only('nama_siswa', 'jenis_kelamin', 'no_telepon'));
 
-    return response()->json(['message' => 'Data berhasil diperbarui!']);
-}
-
+        return response()->json(['message' => 'Data siswa berhasil diperbarui.']);
+    }
 }
