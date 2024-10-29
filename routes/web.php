@@ -19,3 +19,6 @@ Route::post('/profile/update-password', [ProfileController::class, 'updatePasswo
 
 Route::get('/siswa', [SiswaController::class, 'showSiswa'])->name('siswa');
 Route::patch('/siswa/{id}', [SiswaController::class, 'updateSiswa'])->name('siswa.update');
+Route::delete('/siswa/{id}', [SiswaController::class, 'destroySiswa'])->name('siswa.destroy');
+Route::post('/siswa', [SiswaController::class, 'storeSiswa'])->name('siswa.store');
+Route::get('/siswa/filter', [SiswaController::class, 'filterSiswa'])->name('siswa.filter');

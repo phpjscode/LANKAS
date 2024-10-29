@@ -13,7 +13,7 @@ class CreateSiswaTable extends Migration
     {
         Schema::create('siswa', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->string('nama_siswa', 100);
+            $table->string('nama_siswa', 100)->unique();;
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']); // Pilihan jenis kelamin
             $table->string('no_telepon', 15)->unique(); // Nomor telepon unik
             $table->timestamps(); // Menyimpan waktu pembuatan & update
