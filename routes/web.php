@@ -26,3 +26,4 @@ Route::get('/siswa/filter', [SiswaController::class, 'filterSiswa'])->name('sisw
 
 
 Route::get('/uangkas', [UangKasController::class, 'showUangKas'])->name('uangkas');
+Route::post('/uang_kas', [UangKasController::class, 'storeBulanPembayaran'])->name('uangkas.store');
