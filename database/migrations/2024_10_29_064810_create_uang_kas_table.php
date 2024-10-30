@@ -22,6 +22,7 @@ class CreateUangKasTable extends Migration
             $table->integer('minggu_ke_3')->nullable();
             $table->integer('minggu_ke_4')->nullable();
             $table->integer('status_lunas');
+            $table->timestamps();
 
             // Menambahkan foreign key constraints
             $table->foreign('id_siswa')
@@ -33,6 +34,8 @@ class CreateUangKasTable extends Migration
                 ->references('id')
                 ->on('bulan_pembayaran')
                 ->onDelete('cascade'); // Menghapus data uang_kas jika bulan pembayaran dihapus
+
+
         });
     }
 

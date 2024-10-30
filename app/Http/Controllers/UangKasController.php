@@ -38,13 +38,4 @@ class UangKasController extends Controller
 
         return response()->json(['success' => 'Bulan pembayaran berhasil dihapus!']);
     }
-
-    public function detailBulanPembayaran($id)
-    {
-        $bulan = BulanPembayaran::findOrFail($id);
-        return view('detail-bulan-pembayaran', [
-            'title' => 'Detail Bulan Pembayaran',
-            'bulan' => $bulan
-        ]);
-    }
 }

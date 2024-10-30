@@ -15,4 +15,9 @@ class UangKas extends Model
     {
         return $this->belongsTo(BulanPembayaran::class, 'id_bulan_pembayaran');
     }
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'id_siswa');
+    }
 }
