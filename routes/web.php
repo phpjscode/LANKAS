@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UangKasController;
 
 Route::get('/', [IndexController::class, 'showDashboard'])->name('index');
 
@@ -22,3 +23,6 @@ Route::patch('/siswa/{id}', [SiswaController::class, 'updateSiswa'])->name('sisw
 Route::delete('/siswa/{id}', [SiswaController::class, 'destroySiswa'])->name('siswa.destroy');
 Route::post('/siswa', [SiswaController::class, 'storeSiswa'])->name('siswa.store');
 Route::get('/siswa/filter', [SiswaController::class, 'filterSiswa'])->name('siswa.filter');
+
+
+Route::get('/uangkas', [UangKasController::class, 'showUangKas'])->name('uangkas');

@@ -18,8 +18,9 @@
                         <td class="px-6 py-4">{{ $item->jenis_kelamin }}</td>
                         <td class="px-6 py-4">{{ $item->no_telepon }}</td>
                         <td class="px-6 py-4 text-center space-x-2">
-                            <button class="text-blue-500 hover:underline edit-btn"
-                                data-id="{{ $item->id }}">Ubah</button>
+                            <button class="text-blue-500 hover:underline edit-btn" data-id="{{ $item->id }}"
+                                data-nama="{{ $item->nama_siswa }}" data-jenis="{{ $item->jenis_kelamin }}"
+                                data-telepon="{{ $item->no_telepon }}">Ubah</button>
                             <button class="text-red-500 hover:underline hapus-btn"
                                 data-id="{{ $item->id }}">Hapus</button>
                         </td>
@@ -36,7 +37,7 @@
 
 
 <!-- Modal Ubah Siswa -->
-<div id="editModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center p-4">
+<div id="editModal" class="editModal hidden fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center p-4">
     <div class="bg-white p-6 rounded-lg shadow-lg w-full sm:w-1/3">
         <div class="flex items-center justify-between">
             <h2 class="text-xl mb-4">Edit Siswa</h2>
@@ -48,16 +49,15 @@
                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                 </svg>
                 <span class="sr-only">Close modal</span>
+            </button>
         </div>
-        </button>
         <form id="editForm">
             @csrf
             @method('PATCH')
             <input type="hidden" id="siswaId" name="id">
 
             <div class="mb-4">
-                <label for="nama_siswa" class="block text-sm font-medium text-gray-700">Nama
-                    Siswa</label>
+                <label for="nama_siswa" class="block text-sm font-medium text-gray-700">Nama Siswa</label>
                 <input type="text" id="nama_siswa" name="nama_siswa" class="mt-1 p-2 border rounded w-full" required>
             </div>
 
@@ -65,19 +65,18 @@
                 <label class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
                 <div class="flex gap-4">
                     <label>
-                        <input type="radio" name="jenis_kelamin" value="Laki-laki" id="jkLaki">
+                        <input type="radio" name="jenis_kelamin" value="Laki-laki" class="jkLaki" required>
                         Laki-laki
                     </label>
                     <label>
-                        <input type="radio" name="jenis_kelamin" value="Perempuan" id="jkPerempuan">
+                        <input type="radio" name="jenis_kelamin" value="Perempuan" class="jkPerempuan">
                         Perempuan
                     </label>
                 </div>
             </div>
 
             <div class="mb-4">
-                <label for="no_telepon" class="block text-sm font-medium text-gray-700">No.
-                    Telepon</label>
+                <label for="no_telepon" class="block text-sm font-medium text-gray-700">No. Telepon</label>
                 <input type="text" id="no_telepon" name="no_telepon" class="mt-1 p-2 border rounded w-full" required>
             </div>
 
@@ -108,24 +107,26 @@
         <form id="tambahForm">
             @csrf
             <div class="mb-4">
-                <label for="nama_siswa" class="block text-sm font-medium text-gray-700">Nama
-                    Siswa</label>
+                <label for="nama_siswa" class="block text-sm font-medium text-gray-700">Nama Siswa</label>
                 <input type="text" id="nama_siswa" name="nama_siswa" class="mt-1 p-2 border rounded w-full" required>
             </div>
 
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
                 <div class="flex gap-4">
-                    <label><input type="radio" name="jenis_kelamin" value="Laki-laki" required>
-                        Laki-laki</label>
-                    <label><input type="radio" name="jenis_kelamin" value="Perempuan">
-                        Perempuan</label>
+                    <label>
+                        <input type="radio" name="jenis_kelamin" value="Laki-laki" required>
+                        Laki-laki
+                    </label>
+                    <label>
+                        <input type="radio" name="jenis_kelamin" value="Perempuan">
+                        Perempuan
+                    </label>
                 </div>
             </div>
 
             <div class="mb-4">
-                <label for="no_telepon" class="block text-sm font-medium text-gray-700">No.
-                    Telepon</label>
+                <label for="no_telepon" class="block text-sm font-medium text-gray-700">No. Telepon</label>
                 <input type="text" id="no_telepon" name="no_telepon" class="mt-1 p-2 border rounded w-full"
                     required>
             </div>
@@ -133,11 +134,12 @@
             <div class="flex justify-end">
                 <button type="button"
                     class="mr-2 bg-gray-500 text-white px-4 py-2 rounded close-modal-btn">Batal</button>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Tambah</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
             </div>
         </form>
     </div>
 </div>
+
 
 <script>
     $(document).ready(function() {
@@ -148,17 +150,14 @@
             }
         });
 
-        /**
-         * Fungsi untuk menutup semua modal
-         */
+        // Fungsi untuk menutup modal
         function closeModal() {
             $('#editModal, #tambahModal').addClass('hidden').removeClass('flex');
+            $('#editForm')[0].reset(); // Reset form edit siswa
             $('#tambahForm')[0].reset(); // Reset form tambah siswa
         }
 
-        /**
-         * Event delegation untuk menampilkan modal edit siswa
-         */
+        // Event delegation untuk menampilkan modal edit siswa
         $(document).on('click', '.edit-btn', function() {
             let {
                 id,
@@ -173,15 +172,17 @@
             $('#no_telepon').val(telepon);
 
             // Set radio button berdasarkan jenis kelamin
-            $(`#jk${jenis === 'Laki-laki' ? 'Laki' : 'Perempuan'}`).prop('checked', true);
+            if (jenis === 'Laki-laki') {
+                $('.jkLaki').prop('checked', true);
+            } else {
+                $('.jkPerempuan').prop('checked', true);
+            }
 
             // Tampilkan modal edit
             $('#editModal').removeClass('hidden').addClass('flex');
         });
 
-        /**
-         * Submit form edit siswa menggunakan AJAX
-         */
+        // Submit form edit siswa menggunakan AJAX
         $('#editForm').on('submit', function(e) {
             e.preventDefault();
             let id = $('#siswaId').val();
@@ -201,9 +202,7 @@
             });
         });
 
-        /**
-         * Event delegation untuk menghapus siswa
-         */
+        // Event delegation untuk menghapus siswa
         $(document).on('click', '.hapus-btn', function() {
             let id = $(this).data('id');
 
@@ -222,16 +221,12 @@
             }
         });
 
-        /**
-         * Tampilkan modal tambah siswa saat tombol tambah diklik
-         */
+        // Tampilkan modal tambah siswa saat tombol tambah diklik
         $(document).on('click', '.tambah-btn', function() {
             $('#tambahModal').removeClass('hidden').addClass('flex');
         });
 
-        /**
-         * Submit form tambah siswa menggunakan AJAX
-         */
+        // Submit form tambah siswa menggunakan AJAX
         $('#tambahForm').on('submit', function(e) {
             e.preventDefault();
 
@@ -250,14 +245,10 @@
             });
         });
 
-        /**
-         * Tutup modal saat tombol batal atau close diklik
-         */
+        // Tutup modal saat tombol batal atau close diklik
         $(document).on('click', '.close-modal-btn', closeModal);
 
-        /**
-         * Filter jumlah data siswa yang ditampilkan berdasarkan pilihan "entries"
-         */
+        // Filter jumlah data siswa yang ditampilkan berdasarkan pilihan "entries"
         $('#jumlah').on('change', function() {
             let jumlah = $(this).val();
 
@@ -276,9 +267,7 @@
             });
         });
 
-        /**
-         * Pencarian siswa secara real-time berdasarkan input
-         */
+        // Pencarian siswa secara real-time berdasarkan input
         $('#search').on('keyup', function() {
             let search = $(this).val();
 

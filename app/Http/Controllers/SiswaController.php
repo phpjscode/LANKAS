@@ -22,8 +22,6 @@ class SiswaController extends Controller
         ]);
     }
 
-
-
     public function updateSiswa(Request $request, $id)
     {
         $request->validate([

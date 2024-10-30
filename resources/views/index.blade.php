@@ -18,7 +18,7 @@
                                     <p class="text-lg">Siswa</p>
                                 </div>
                                 <div>
-                                    <p class="text-sm opacity-80">Jumlah Siswa: {{ $totalSiswa }}</p>
+                                    <p class="text-sm opacity-80">Jumlah Siswa: {{ $siswa }}</p>
                                 </div>
                                 <a href="{{ route('siswa') }}"
                                     class="bg-sky-500 h-10 w-12 flex items-center justify-center rounded-lg">
