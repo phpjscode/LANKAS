@@ -11,10 +11,6 @@ class IndexController extends Controller
 {
     public function showDashboard()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
         $siswa = Siswa::count(); // Mengambil semua data siswa
 
         return view('index', [

@@ -12,9 +12,11 @@ class ProfileController extends Controller
 {
     public function showProfile()
     {
+        $user = Auth::user();
+
         // Kirim data ke view profil
         return view('profile', [
-            'user' => $user = Auth::user(), // Kirim data pengguna
+            'user' => $user, // Kirim data pengguna
             'title' => 'Profil'  // Pastikan ini dikirim
         ]);
     }

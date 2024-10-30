@@ -15,22 +15,10 @@ class CreateBulanPembayaranTable extends Migration
     {
         Schema::create('bulan_pembayaran', function (Blueprint $table) {
             $table->id(); // Primary key auto-increment
-            $table->enum('nama_bulan', [
-                'Januari',
-                'Februari',
-                'Maret',
-                'April',
-                'Mei',
-                'Juni',
-                'Juli',
-                'Agustus',
-                'September',
-                'Oktober',
-                'November',
-                'Desember'
-            ]); // Enum untuk nama bulan
-            $table->integer('tahun'); // Tahun pembayaran
-            $table->integer('pembayaran_perminggu'); // Jumlah pembayaran per minggu
+            $table->string('nama_bulan');
+            $table->integer('tahun'); // Jika ingin menyimpan tahun sebagai integer
+            $table->decimal('pembayaran_perminggu', 10, 2); // Untuk jumlah pembayaran
+            $table->timestamps();
         });
     }
 

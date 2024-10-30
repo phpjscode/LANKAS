@@ -9,31 +9,42 @@ class UangKasController extends Controller
 {
     public function showUangKas()
     {
-        $bulanPembayaran = BulanPembayaran::with('uangKas')
-            ->orderBy('tahun', 'asc')
-            ->get();
-
         // Mengirimkan data dalam bentuk array
+        $bulanPembayaran = BulanPembayaran::all();
+
         return view('uangkas', [
             'title' => 'Uang Kas',
-            'bulanPembayaran' => $bulanPembayaran,
+            'bulanPembayaran' => $bulanPembayaran
         ]);
     }
 
     public function storeBulanPembayaran(Request $request)
     {
-        // Validasi data yang dikirim
         $validated = $request->validate([
             'nama_bulan' => 'required|string|max:255',
             'tahun' => 'required|integer',
-            'jumlah' => 'required|numeric',
+            'pembayaran_perminggu' => 'required|numeric',
         ]);
 
-        // Simpan data ke database
         BulanPembayaran::create($validated);
 
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('uangkas')
-            ->with('success', 'Bulan pembayaran berhasil ditambahkan!');
+        return response()->json(['success' => 'Bulan pembayaran berhasil ditambahkan!']);
+    }
+
+    public function destroyBulanPembayaran($id)
+    {
+        $bulan = BulanPembayaran::findOrFail($id); // Cari data berdasarkan ID
+        $bulan->delete(); // Hapus data
+
+        return response()->json(['success' => 'Bulan pembayaran berhasil dihapus!']);
+    }
+
+    public function detailBulanPembayaran($id)
+    {
+        $bulan = BulanPembayaran::findOrFail($id);
+        return view('detail-bulan-pembayaran', [
+            'title' => 'Detail Bulan Pembayaran',
+            'bulan' => $bulan
+        ]);
     }
 }

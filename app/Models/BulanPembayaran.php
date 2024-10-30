@@ -14,6 +14,6 @@ class BulanPembayaran extends Model
 
     public function uangKas()
     {
-        return $this->hasMany(UangKas::class, 'bulan_pembayaran_id');
+        return $this->hasMany(UangKas::class, 'id_bulan_pembayaran');
     }
 }
