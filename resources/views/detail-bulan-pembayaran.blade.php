@@ -54,10 +54,10 @@
                                     <tr class="bg-white border-b">
                                         <td class="px-6 py-4">{{ $index + 1 }}</td>
                                         <td class="px-6 py-4">{{ $kas->siswa->nama_siswa }}</td>
-                                        <td class="px-6 py-4">Rp{{ number_format($pembayaranPerminggu, 0, ',', '.') }}</td>
-                                        <td class="px-6 py-4">Rp{{ number_format($pembayaranPerminggu, 0, ',', '.') }}</td>
-                                        <td class="px-6 py-4">Rp{{ number_format($pembayaranPerminggu, 0, ',', '.') }}</td>
-                                        <td class="px-6 py-4">Rp{{ number_format($pembayaranPerminggu, 0, ',', '.') }}</td>
+                                        <td class="px-6 py-4">Rp{{ number_format($kas->minggu_ke_1, 0, ',', '.') }}</td>
+                                        <td class="px-6 py-4">Rp{{ number_format($kas->minggu_ke_2, 0, ',', '.') }}</td>
+                                        <td class="px-6 py-4">Rp{{ number_format($kas->minggu_ke_3, 0, ',', '.') }}</td>
+                                        <td class="px-6 py-4">Rp{{ number_format($kas->minggu_ke_4, 0, ',', '.') }}</td>
                                     </tr>
                                 @empty
                                     <tr>

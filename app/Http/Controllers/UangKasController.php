@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BulanPembayaranDitambahkan;
 use App\Models\BulanPembayaran;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,7 @@ class UangKasController extends Controller
         ]);
 
         BulanPembayaran::create($validated);
+        event(new BulanPembayaranDitambahkan($bulanPembayaran));
 
         return response()->json(['success' => 'Bulan pembayaran berhasil ditambahkan!']);
     }
