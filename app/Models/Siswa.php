@@ -26,8 +26,22 @@ class Siswa extends Model
 
     protected static function booted()
     {
+        // Event saat siswa baru dibuat
         static::created(function ($siswa) {
-            event(new SiswaDitambahkan($siswa));
+
+            $bulanPembayaranList = BulanPembayaran::all();
+
+            foreach ($bulanPembayaranList as $bulan) {
+                UangKas::create([
+                    'id_siswa' => $siswa->id,
+                    'id_bulan_pembayaran' => $bulan->id,
+                    'minggu_ke_1' => 0,
+                    'minggu_ke_2' => 0,
+                    'minggu_ke_3' => 0,
+                    'minggu_ke_4' => 0,
+                    'status_lunas' => 0
+                ]);
+            }
         });
     }
 }

@@ -9,13 +9,13 @@ class DetailBulanPembayaran extends Controller
 {
     public function showBulanPembayaran($id)
     {
-        // Eager loading uangKas dan relasi siswa
         $bulan = BulanPembayaran::with('uangKas.siswa')->findOrFail($id);
+        $pembayaranPerminggu = $bulan->pembayaran_perminggu;
 
         return view('detail-bulan-pembayaran', [
             'title' => 'Detail Bulan Pembayaran',
             'bulan' => $bulan,
-            'pembayaranPerminggu' => $bulan->pembayaran_perminggu,
+            'pembayaranPerminggu' => $pembayaranPerminggu,
         ]);
     }
 }

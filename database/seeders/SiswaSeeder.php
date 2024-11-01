@@ -12,28 +12,6 @@ class SiswaSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('siswa')->insert([
-            [
-                'nama_siswa' => 'Ahmad Zaki',
-                'jenis_kelamin' => 'Laki-laki',
-                'no_telepon' => '081234567890',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_siswa' => 'Siti Nurhaliza',
-                'jenis_kelamin' => 'Perempuan',
-                'no_telepon' => '081298765432',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_siswa' => 'Budi Santoso',
-                'jenis_kelamin' => 'Laki-laki',
-                'no_telepon' => '081345678901',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        DB::table('siswa');
     }
 }
