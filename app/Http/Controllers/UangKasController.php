@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\BulanPembayaranDitambahkan;
 use App\Models\BulanPembayaran;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UangKasController extends Controller
 {
@@ -22,12 +23,22 @@ class UangKasController extends Controller
     public function storeBulanPembayaran(Request $request)
     {
         $validated = $request->validate([
-            'nama_bulan' => 'required|string|max:255',
+            'nama_bulan' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('bulan_pembayaran')->where(function ($query) use ($request) {
+                    return $query->where('tahun', $request->tahun);
+                })
+            ],
             'tahun' => 'required|integer',
             'pembayaran_perminggu' => 'required|numeric',
         ]);
 
-        BulanPembayaran::create($validated);
+        // Jika validasi lolos, lanjutkan menyimpan data
+        $bulanPembayaran = BulanPembayaran::create($validated);
+
+        // Mengirimkan event
         event(new BulanPembayaranDitambahkan($bulanPembayaran));
 
         return response()->json(['success' => 'Bulan pembayaran berhasil ditambahkan!']);

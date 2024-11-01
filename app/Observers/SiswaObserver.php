@@ -18,7 +18,6 @@ class SiswaObserver
         $bulanPembayaran = BulanPembayaran::all();
 
         foreach ($bulanPembayaran as $bulan) {
-            // Cek apakah sudah ada data untuk siswa dan bulan ini
             $existingUangKas = UangKas::where('id_siswa', $siswa->id)
                 ->where('id_bulan_pembayaran', $bulan->id)
                 ->first();
@@ -28,15 +27,24 @@ class SiswaObserver
                 UangKas::create([
                     'id_siswa' => $siswa->id,
                     'id_bulan_pembayaran' => $bulan->id,
-                    'minggu_ke_1' => null,
-                    'minggu_ke_2' => null,
-                    'minggu_ke_3' => null,
-                    'minggu_ke_4' => null,
+                    'minggu_ke_1' => $bulan->pembayaran_perminggu,
+                    'minggu_ke_2' => $bulan->pembayaran_perminggu,
+                    'minggu_ke_3' => $bulan->pembayaran_perminggu,
+                    'minggu_ke_4' => $bulan->pembayaran_perminggu,
                     'status_lunas' => 0,
+                ]);
+            } else {
+                // Jika entri sudah ada, perbarui jika perlu
+                $existingUangKas->update([
+                    'minggu_ke_1' => $bulan->pembayaran_perminggu,
+                    'minggu_ke_2' => $bulan->pembayaran_perminggu,
+                    'minggu_ke_3' => $bulan->pembayaran_perminggu,
+                    'minggu_ke_4' => $bulan->pembayaran_perminggu,
                 ]);
             }
         }
     }
+
 
     /**
      * Handle the Siswa "updated" event.

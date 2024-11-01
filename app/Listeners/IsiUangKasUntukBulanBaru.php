@@ -23,19 +23,21 @@ class IsiUangKasUntukBulanBaru
      */
     public function handle(BulanPembayaranDitambahkan $event)
     {
-        // Ambil semua siswa
+        $bulanPembayaran = $event->bulanPembayaran;
         $siswaList = Siswa::all();
 
         foreach ($siswaList as $siswa) {
-            UangKas::create([
-                'id_siswa' => $siswa->id,
-                'id_bulan_pembayaran' => $event->bulanPembayaran->id, // Pastikan ini ada di event
-                'minggu_ke_1' => $event->bulanPembayaran->pembayaran_perminggu,
-                'minggu_ke_2' => $event->bulanPembayaran->pembayaran_perminggu,
-                'minggu_ke_3' => $event->bulanPembayaran->pembayaran_perminggu,
-                'minggu_ke_4' => $event->bulanPembayaran->pembayaran_perminggu,
-                'status_lunas' => 0, // Atau sesuaikan sesuai kebutuhan
-            ]);
+            if (!UangKas::where('id_siswa', $siswa->id)->where('id_bulan_pembayaran', $bulanPembayaran->id)->exists()) {
+                UangKas::create([
+                    'id_siswa' => $siswa->id,
+                    'id_bulan_pembayaran' => $bulanPembayaran->id,
+                    'minggu_ke_1' => $bulanPembayaran->pembayaran_perminggu,
+                    'minggu_ke_2' => $bulanPembayaran->pembayaran_perminggu,
+                    'minggu_ke_3' => $bulanPembayaran->pembayaran_perminggu,
+                    'minggu_ke_4' => $bulanPembayaran->pembayaran_perminggu,
+                    'status_lunas' => 0
+                ]);
+            }
         }
     }
 }
