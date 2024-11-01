@@ -18,9 +18,16 @@ class Siswa extends Model
         'jenis_kelamin',
         'no_telepon',
     ];
-    
+
     public function uangKas()
     {
         return $this->hasMany(UangKas::class, 'id_siswa');
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($siswa) {
+            event(new SiswaDitambahkan($siswa));
+        });
     }
 }

@@ -14,7 +14,8 @@ class DetailBulanPembayaran extends Controller
 
         return view('detail-bulan-pembayaran', [
             'title' => 'Detail Bulan Pembayaran',
-            'bulan' => $bulan
+            'bulan' => $bulan,
+            'pembayaranPerminggu' => $bulan->pembayaran_perminggu,
         ]);
     }
 }
