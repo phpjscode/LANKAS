@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BulanPembayaran;
 use Illuminate\Http\Request;
 
-class DetailBulanPembayaran extends Controller
+class DetailBulanPembayaranController extends Controller
 {
     public function showBulanPembayaran($id)
     {

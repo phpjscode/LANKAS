@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DetailBulanPembayaran;
+use App\Http\Controllers\DetailBulanPembayaranController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\ProfileController;
@@ -34,5 +34,5 @@ Route::middleware('auth')->group(function () {
   Route::delete('/uangkas/{id}', [UangKasController::class, 'destroyBulanPembayaran'])->name('uangkas.destroy');
 
   // Detail Bulan Pembayaran routes
-  Route::post('/detail-bulan-pembayaran/{id}', [DetailBulanPembayaran::class, 'showBulanPembayaran'])->name('bulanpembayaran');
+  Route::post('/detail-bulan-pembayaran/{id}', [DetailBulanPembayaranController::class, 'showBulanPembayaran'])->name('detailbulanpembayaran');
 });

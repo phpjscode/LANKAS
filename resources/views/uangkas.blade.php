@@ -37,7 +37,7 @@
                                 </div>
 
                                 <div class="flex items-center justify-start space-x-2">
-                                    <form action="{{ route('bulanpembayaran', ['id' => $bulan->id]) }}" method="POST"
+                                    <form action="{{ route('detailbulanpembayaran', ['id' => $bulan->id]) }}" method="POST"
                                         class="inline">
                                         @csrf
                                         <button type="submit"
