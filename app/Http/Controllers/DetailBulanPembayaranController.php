@@ -25,7 +25,9 @@ class DetailBulanPembayaranController extends Controller
     public function updatePembayaranUangKasSiswa(Request $request)
     {
         // Dapatkan id bulan pembayaran berdasarkan siswa
-        $uangKas = UangKas::where('id_siswa', $request->id_siswa)->first();
+        $uangKas = UangKas::where('id_siswa', $request->id_siswa)
+            ->where('id_bulan_pembayaran', $request->id_bulan_pembayaran)
+            ->first();
 
         if (!$uangKas) {
             return response()->json(['success' => false, 'message' => 'Data uang kas tidak ditemukan'], 400);
@@ -37,6 +39,7 @@ class DetailBulanPembayaranController extends Controller
 
         $request->validate([
             'id_siswa' => 'required|exists:uang_kas,id_siswa',
+            'id_bulan_pembayaran' => 'required|exists:bulan_pembayaran,id', // Tambahkan ini
             'minggu_ke' => 'required|string|in:minggu_ke_1,minggu_ke_2,minggu_ke_3,minggu_ke_4',
             'nilai' => 'required|numeric|max:' . $pembayaranPerminggu,
         ]);
