@@ -59,20 +59,24 @@
                                         <td class="px-6 py-4">{{ $kas->siswa->nama_siswa }}</td>
 
                                         @php
-                                            // Awal: minggu pertama terbuka secara default
+                                            // Mulai dari minggu pertama sebagai yang terbuka secara default
                                             $isMingguTerbuka = true;
                                         @endphp
 
                                         @for ($i = 1; $i <= 4; $i++)
                                             @php
-                                                // Periksa apakah minggu ke-i sudah mencapai nilai pembayaran perminggu
+                                                // Cek apakah minggu ini sudah mencapai atau melebihi nilai pembayaran perminggu
                                                 $isMingguIniLengkap = $kas->{'minggu_ke_' . $i} >= $pembayaranPerminggu;
                                             @endphp
 
                                             <td class="px-6 py-4">
                                                 <button
                                                     class="text-xs p-1 rounded 
-                                                    {{ !$isMingguTerbuka ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-red-600 text-white' }}"
+                                                    {{ $isMingguIniLengkap
+                                                        ? 'bg-green-600 text-white'
+                                                        : (!$isMingguTerbuka
+                                                            ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+                                                            : 'bg-red-600 text-white') }}"
                                                     onclick="openEditModal({{ $kas->id_siswa }}, 'minggu_ke_{{ $i }}', {{ $kas->{'minggu_ke_' . $i} }})"
                                                     {{ !$isMingguTerbuka ? 'disabled' : '' }}>
 
@@ -81,7 +85,7 @@
                                             </td>
 
                                             @php
-                                                // Hanya buka minggu berikutnya jika minggu ini lengkap
+                                                // Ubah status minggu terbuka sesuai status penyelesaian minggu ini
                                                 $isMingguTerbuka = $isMingguIniLengkap;
                                             @endphp
                                         @endfor
@@ -93,7 +97,6 @@
                                 @endforelse
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

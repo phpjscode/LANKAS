@@ -32,7 +32,7 @@
                                 <div class="text-sm text-gray-900 mb-4 lg:flex lg:flex-col lg:space-y-2">
                                     <span>Total Uang Kas Bulan Ini:</span>
                                     <span class="p-2 bg-green-600 rounded text-white lg:w-24 text-center">
-                                        Rp{{ number_format($bulan->pembayaran_perminggu * 4, 0, ',', '.') }}
+                                        Rp{{ number_format($totalUang, 0, ',', '.') }}
                                     </span>
                                 </div>
 

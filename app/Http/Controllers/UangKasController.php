@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\BulanPembayaranDitambahkan;
 use App\Models\BulanPembayaran;
+use App\Models\UangKas;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -14,9 +15,15 @@ class UangKasController extends Controller
         // Mengirimkan data dalam bentuk array
         $bulanPembayaran = BulanPembayaran::all();
 
+        $totalUang = UangKas::sum('minggu_ke_1')
+            + UangKas::sum('minggu_ke_2')
+            + UangKas::sum('minggu_ke_3')
+            + UangKas::sum('minggu_ke_4');
+
         return view('uangkas', [
             'title' => 'Uang Kas',
-            'bulanPembayaran' => $bulanPembayaran
+            'bulanPembayaran' => $bulanPembayaran,
+            'totalUang' => $totalUang
         ]);
     }
 

@@ -24,13 +24,14 @@ class DetailBulanPembayaranController extends Controller
 
     public function updatePembayaranUangKasSiswa(Request $request)
     {
-        // Dapatkan id bulan pembayaran berdasarkan siswa, sesuaikan logikanya jika perlu
+        // Dapatkan id bulan pembayaran berdasarkan siswa
         $uangKas = UangKas::where('id_siswa', $request->id_siswa)->first();
 
         if (!$uangKas) {
             return response()->json(['success' => false, 'message' => 'Data uang kas tidak ditemukan'], 400);
         }
 
+        // Dapatkan pembayaran per minggu dari tabel BulanPembayaran
         $bulanPembayaran = BulanPembayaran::where('id', $uangKas->id_bulan_pembayaran)->first();
         $pembayaranPerminggu = $bulanPembayaran->pembayaran_perminggu ?? 0;
 
@@ -40,13 +41,40 @@ class DetailBulanPembayaranController extends Controller
             'nilai' => 'required|numeric|max:' . $pembayaranPerminggu,
         ]);
 
-        if (in_array($request->minggu_ke, ['minggu_ke_1', 'minggu_ke_2', 'minggu_ke_3', 'minggu_ke_4'])) {
-            $uangKas->{$request->minggu_ke} = $request->nilai;
-            $uangKas->save();
+        // Logika disable minggu sebelumnya jika minggu setelahnya sudah penuh
+        $mingguKeMap = [
+            'minggu_ke_1' => 1,
+            'minggu_ke_2' => 2,
+            'minggu_ke_3' => 3,
+            'minggu_ke_4' => 4,
+        ];
 
-            return response()->json(['success' => true]);
+        $currentMinggu = $mingguKeMap[$request->minggu_ke];
+
+        // Cek apakah minggu setelah minggu yang dipilih sudah penuh
+        for ($i = $currentMinggu + 1; $i <= 4; $i++) {
+            $minggu = 'minggu_ke_' . $i;
+            if ($uangKas->{$minggu} >= $pembayaranPerminggu) {
+                return response()->json(['success' => false, 'message' => 'Tidak dapat mengubah minggu ini karena minggu berikutnya sudah penuh.'], 400);
+            }
         }
 
-        return response()->json(['success' => false], 400);
+        // Update nilai minggu yang diinginkan
+        $uangKas->{$request->minggu_ke} = $request->nilai;
+        $uangKas->save();
+
+        // Cek jika semua minggu sudah memenuhi pembayaranPerminggu untuk mengubah status_lunas
+        $allWeeksPaid = (
+            $uangKas->minggu_ke_1 >= $pembayaranPerminggu &&
+            $uangKas->minggu_ke_2 >= $pembayaranPerminggu &&
+            $uangKas->minggu_ke_3 >= $pembayaranPerminggu &&
+            $uangKas->minggu_ke_4 >= $pembayaranPerminggu
+        );
+
+        // Set status_lunas menjadi 1 jika semua minggu sudah terbayar
+        $uangKas->status_lunas = $allWeeksPaid ? 1 : 0;
+        $uangKas->save();
+
+        return response()->json(['success' => true]);
     }
 }
