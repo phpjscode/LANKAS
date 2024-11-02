@@ -58,21 +58,32 @@
                                         <td class="px-6 py-4">{{ $index + 1 }}</td>
                                         <td class="px-6 py-4">{{ $kas->siswa->nama_siswa }}</td>
 
-                                        {{-- Cek apakah minggu ke-1 memenuhi pembayaran per minggu --}}
-                                        @php $isMingguPertamaLengkap = $kas->minggu_ke_1 >= $pembayaranPerminggu; @endphp
+                                        @php
+                                            // Awal: minggu pertama terbuka secara default
+                                            $isMingguTerbuka = true;
+                                        @endphp
 
                                         @for ($i = 1; $i <= 4; $i++)
+                                            @php
+                                                // Periksa apakah minggu ke-i sudah mencapai nilai pembayaran perminggu
+                                                $isMingguIniLengkap = $kas->{'minggu_ke_' . $i} >= $pembayaranPerminggu;
+                                            @endphp
+
                                             <td class="px-6 py-4">
                                                 <button
                                                     class="text-xs p-1 rounded 
-                                                    {{ !$isMingguPertamaLengkap && $i > 1 ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-red-600 text-white' }}"
+                                                    {{ !$isMingguTerbuka ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-red-600 text-white' }}"
                                                     onclick="openEditModal({{ $kas->id_siswa }}, 'minggu_ke_{{ $i }}', {{ $kas->{'minggu_ke_' . $i} }})"
-                                                    {{ !$isMingguPertamaLengkap && $i > 1 ? 'disabled' : '' }}>
+                                                    {{ !$isMingguTerbuka ? 'disabled' : '' }}>
 
-                                                    {{-- Tampilkan nilai atau kosongkan jika disabled --}}
-                                                    {{ !$isMingguPertamaLengkap && $i > 1 ? '<---' : number_format($kas->{'minggu_ke_' . $i}, 0, ',', '.') }}
+                                                    {{ !$isMingguTerbuka ? '<---' : number_format($kas->{'minggu_ke_' . $i}, 0, ',', '.') }}
                                                 </button>
                                             </td>
+
+                                            @php
+                                                // Hanya buka minggu berikutnya jika minggu ini lengkap
+                                                $isMingguTerbuka = $isMingguIniLengkap;
+                                            @endphp
                                         @endfor
                                     </tr>
                                 @empty
