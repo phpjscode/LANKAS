@@ -19,10 +19,10 @@ class BulanPembayaranObserver
             UangKas::create([
                 'id_siswa' => $siswa->id,
                 'id_bulan_pembayaran' => $bulanPembayaran->id,
-                'minggu_ke_1' => $bulanPembayaran->pembayaran_perminggu,
-                'minggu_ke_2' => $bulanPembayaran->pembayaran_perminggu,
-                'minggu_ke_3' => $bulanPembayaran->pembayaran_perminggu,
-                'minggu_ke_4' => $bulanPembayaran->pembayaran_perminggu,
+                'minggu_ke_1' => 0,
+                'minggu_ke_2' => 0,
+                'minggu_ke_3' => 0,
+                'minggu_ke_4' => 0,
                 'status_lunas' => 0,
             ]);
         }

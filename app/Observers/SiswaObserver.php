@@ -27,19 +27,19 @@ class SiswaObserver
                 UangKas::create([
                     'id_siswa' => $siswa->id,
                     'id_bulan_pembayaran' => $bulan->id,
-                    'minggu_ke_1' => $bulan->pembayaran_perminggu,
-                    'minggu_ke_2' => $bulan->pembayaran_perminggu,
-                    'minggu_ke_3' => $bulan->pembayaran_perminggu,
-                    'minggu_ke_4' => $bulan->pembayaran_perminggu,
+                    'minggu_ke_1' => 0,
+                    'minggu_ke_2' => 0,
+                    'minggu_ke_3' => 0,
+                    'minggu_ke_4' => 0,
                     'status_lunas' => 0,
                 ]);
             } else {
                 // Jika entri sudah ada, perbarui jika perlu
                 $existingUangKas->update([
-                    'minggu_ke_1' => $bulan->pembayaran_perminggu,
-                    'minggu_ke_2' => $bulan->pembayaran_perminggu,
-                    'minggu_ke_3' => $bulan->pembayaran_perminggu,
-                    'minggu_ke_4' => $bulan->pembayaran_perminggu,
+                    'minggu_ke_1' => 0,
+                    'minggu_ke_2' => 0,
+                    'minggu_ke_3' => 0,
+                    'minggu_ke_4' => 0,
                 ]);
             }
         }
