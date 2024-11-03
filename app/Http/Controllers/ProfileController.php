@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
-class ProfileController extends Controlle
+class ProfileController extends Controller
 {
     public function showProfile()
     {
