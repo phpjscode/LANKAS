@@ -15,7 +15,7 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         // Kirim data ke view profil
-        return view('profiles', [
+        return view('profile', [
             'user' => $user, // Kirim data pengguna
             'title' => 'Profil'  // Pastikan ini dikirim
         ]);
