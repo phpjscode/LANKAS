@@ -32,7 +32,7 @@
                                 <div class="text-sm text-gray-900 mb-4 lg:flex lg:flex-col lg:space-y-2">
                                     <span>Total Uang Kas Bulan Ini:</span>
                                     <span class="p-2 bg-green-700 rounded text-white lg:w-24 text-center">
-                                        Rp{{ number_format($totalUang, 0, ',', '.') }}
+                                        Rp{{ number_format($bulan->total_uang_kas, 0, ',', '.') }}
                                     </span>
                                 </div>
 
@@ -52,7 +52,7 @@
 
                                     <button
                                         class="btn-hapus bg-red-600 h-10 w-12 flex items-center justify-center rounded-lg hover:bg-red-700 transition duration-300"
-                                        data-id="{{ $bulan->id }}"> <!-- Atribut data-id untuk membawa ID -->
+                                        data-id="{{ $bulan->id }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#ffffff"
                                             class="w-6 h-6">
                                             <path
@@ -63,6 +63,7 @@
                             </div>
                         @endforeach
                     </div>
+
                 </div>
             </div>
         </main>

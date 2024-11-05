@@ -12,20 +12,26 @@ class UangKasController extends Controller
 {
     public function showUangKas()
     {
-        // Mengirimkan data dalam bentuk array
+        // Mengambil semua bulan pembayaran
         $bulanPembayaran = BulanPembayaran::all();
 
-        $totalUang = UangKas::sum('minggu_ke_1')
-            + UangKas::sum('minggu_ke_2')
-            + UangKas::sum('minggu_ke_3')
-            + UangKas::sum('minggu_ke_4');
+        // Loop untuk setiap bulanPembayaran dan hitung total uang kas untuk bulan tersebut
+        foreach ($bulanPembayaran as $bulan) {
+            // Mengambil total uang kas untuk bulan tertentu berdasarkan id
+            $totalUang = UangKas::where('id_bulan_pembayaran', $bulan->id)
+                ->selectRaw('SUM(minggu_ke_1 + minggu_ke_2 + minggu_ke_3 + minggu_ke_4) as total')
+                ->value('total'); // Ambil hasil sebagai total uang kas untuk bulan
+
+            // Menambahkan total uang ke setiap bulanPembayaran
+            $bulan->total_uang_kas = $totalUang;
+        }
 
         return view('uangkas', [
             'title' => 'Uang Kas',
             'bulanPembayaran' => $bulanPembayaran,
-            'totalUang' => $totalUang
         ]);
     }
+
 
     public function storeBulanPembayaran(Request $request)
     {

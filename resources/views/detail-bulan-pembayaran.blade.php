@@ -5,7 +5,7 @@
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
                         <div class="">
-                            <h1 class="text-2xl">{{ $title }}</h1>
+                            <h1 class="text-2xl capitalize">{{ $title }}</h1>
                             <h2 class="text-xl">Rp{{ number_format($pembayaranPerminggu, 0, ',', '.') }} / minggu</h2>
                         </div>
                         <a href="{{ route('siswa') }}"
@@ -164,6 +164,7 @@
                             id_siswa: id_siswa,
                             minggu_ke: minggu_ke,
                             nilai: nilai,
+                            id_bulan_pembayaran: {{ $bulan->id }},
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(response) {
