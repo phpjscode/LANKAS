@@ -34,7 +34,6 @@
                         </div>
                     </div>
 
-
                     <!-- Table -->
                     <x-table-siswa :siswa="$siswa"></x-table-siswa>
                 </div>

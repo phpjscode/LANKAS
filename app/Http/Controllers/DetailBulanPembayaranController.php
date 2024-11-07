@@ -13,7 +13,7 @@ class DetailBulanPembayaranController extends Controller
         $bulan = BulanPembayaran::with('uangKas.siswa')->findOrFail($id);
         $pembayaranPerminggu = $bulan->pembayaran_perminggu;
 
-        $title = "Detail Bulan Pembayaran : " . $bulan->nama_bulan . ' ' . $bulan->tahun;
+        $title = "Bulan Pembayaran : " . $bulan->nama_bulan . ' ' . $bulan->tahun;
 
         return view('detail-bulan-pembayaran', [
             'title' => $title,

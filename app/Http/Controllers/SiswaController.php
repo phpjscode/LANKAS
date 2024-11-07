@@ -49,7 +49,7 @@ class SiswaController extends Controller
         $validated = $request->validate([
             'nama_siswa' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'no_telepon' => 'required|string|max:15',
+            'no_telepon' => 'required|numeric|digits_between:5,15',
         ]);
 
         Siswa::create($validated); // Simpan data siswa baru

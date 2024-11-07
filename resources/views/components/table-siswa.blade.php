@@ -119,7 +119,7 @@
                         Laki-laki
                     </label>
                     <label>
-                        <input type="radio" name="jenis_kelamin" value="Perempuan">
+                        <input type="radio" name="jenis_kelamin" value="Perempuan" required>
                         Perempuan
                     </label>
                 </div>
@@ -127,7 +127,7 @@
 
             <div class="mb-4">
                 <label for="no_telepon" class="block text-sm font-medium text-gray-700">No. Telepon</label>
-                <input type="text" id="no_telepon" name="no_telepon" class="mt-1 p-2 border rounded w-full"
+                <input type="tel" id="no_telepon" name="no_telepon" class="mt-1 p-2 border rounded w-full"
                     required>
             </div>
 
