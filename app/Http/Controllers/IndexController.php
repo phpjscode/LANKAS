@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Siswa; // Pastikan model Siswa sudah diimport
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Import facade Auth jika belum
-use Illuminate\Support\Facades\Log;
 
 class IndexController extends Controller
 {

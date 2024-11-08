@@ -2,11 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DetailBulanPembayaranController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UangKasController;
+use App\Http\Controllers\PengeluaranController;
+use App\Http\Controllers\DetailBulanPembayaranController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -36,4 +37,7 @@ Route::middleware('auth')->group(function () {
   // Detail Bulan Pembayaran routes
   Route::post('/detail-bulan-pembayaran/{id}', [DetailBulanPembayaranController::class, 'showBulanPembayaran'])->name('detailbulanpembayaran');
   Route::post('/update-pembayaran-uang-kas-siswa', [DetailBulanPembayaranController::class, 'updatePembayaranUangKasSiswa'])->name('detailbulanpembayaran.update');
+
+  // Pengeluaran routes
+  Route::get('/pengeluaran', [PengeluaranController::class, 'showPengeluaran'])->name('pengeluaran');
 });
