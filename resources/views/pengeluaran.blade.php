@@ -84,9 +84,15 @@
                     <form id="tambahForm">
                         @csrf
                         <div class="mb-4">
-                            <label for="nama_siswa" class="block text-sm font-medium text-gray-700">Nama Siswa</label>
-                            <input type="number" id="nama_siswa" name="nama_siswa" class="mt-1 p-2 border rounded w-full"
-                                required>
+                            <label for="jumlah_pengeluaran" class="block text-sm font-medium text-gray-700">Jumlah
+                                Pengeluaran</label>
+                            <input type="number" id="jumlah_pengeluaran" name="jumlah_pengeluaran"
+                                class="mt-1 p-2 border rounded w-full" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
+                            <textarea id="keterangan" name="keterangan" class="mt-1 p-2 border rounded w-full" rows="4" required></textarea>
                         </div>
 
                         <div class="flex justify-end">
