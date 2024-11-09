@@ -8,14 +8,26 @@ use Illuminate\Support\Facades\Auth;
 
 class PengeluaranController extends Controller
 {
-    public function showPengeluaran()
+    public function showPengeluaran(Request $request)
     {
-        $pengeluaran = Pengeluaran::with('user')->get();
+        // Mengambil parameter jumlah dan search dari request
+        $perPage = $request->get('jumlah', 5);  // Default ke 5 jika tidak ada parameter
+        $search = $request->get('search', '');
+
+        // Query untuk mengambil pengeluaran dengan relasi 'user' dan filter berdasarkan pencarian
+        $pengeluaran = Pengeluaran::with('user')
+            ->where('keterangan', 'like', "%$search%")  // Filter berdasarkan keterangan
+            ->orWhereHas('user', function ($query) use ($search) {
+                $query->where('name', 'like', "%$search%");  // Filter berdasarkan nama pengguna
+            })
+            ->paginate($perPage);  // Pagination berdasarkan jumlah yang dipilih
+
         return view('pengeluaran', [
             'title' => 'Pengeluaran',
             'pengeluaran' => $pengeluaran
         ]);
     }
+
 
     public function storePengeluaran(Request $request)
     {

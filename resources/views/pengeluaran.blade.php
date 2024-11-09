@@ -15,22 +15,33 @@
                             <span>Tambah Pengeluaran</span>
                         </button>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center justify-start space-x-2 mb-4">
-                            <label for="jumlah" class="text-sm font-medium text-gray-700">Show</label>
-                            <select id="jumlah" name="jumlah" class="p-1 text-sm border rounded">
-                                <option value="5" {{ request('jumlah') == 5 ? 'selected' : '' }}>5</option>
-                                <option value="20" {{ request('jumlah') == 20 ? 'selected' : '' }}>20</option>
-                                <option value="50" {{ request('jumlah') == 50 ? 'selected' : '' }}>50</option>
-                            </select>
-                            <p class="text-sm">entries</p>
-                        </div>
-                        <div class="flex items-center space-x-2 mb-4">
-                            <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
-                            <input type="text" id="search" name="search" class="p-1 text-sm border rounded w-40"
-                                placeholder="Cari pengeluaran...">
-                        </div>
+
+                    <div>
+                        <form method="GET" action="{{ route('pengeluaran') }}">
+                            <div class="flex items-center justify-between">
+                                <!-- Dropdown untuk jumlah entri -->
+                                <div class="flex items-center justify-start space-x-2 mb-4">
+                                    <label for="jumlah" class="text-sm font-medium text-gray-700">Show</label>
+                                    <select id="jumlah" name="jumlah" class="p-1 text-sm border rounded"
+                                        onchange="this.form.submit()">
+                                        <option value="5" {{ request('jumlah') == 5 ? 'selected' : '' }}>5</option>
+                                        <option value="20" {{ request('jumlah') == 20 ? 'selected' : '' }}>20</option>
+                                        <option value="50" {{ request('jumlah') == 50 ? 'selected' : '' }}>50</option>
+                                    </select>
+                                    <p class="text-sm">entries</p>
+                                </div>
+
+                                <!-- Input untuk pencarian -->
+                                <div class="flex items-center space-x-2 mb-4">
+                                    <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
+                                    <input type="text" id="search" name="search"
+                                        class="p-1 text-sm border rounded w-40" placeholder="Cari pengeluaran..."
+                                        value="{{ request('search') }}" oninput="this.form.submit()">
+                                </div>
+                            </div>
+                        </form>
                     </div>
+
                 </div>
             </div>
 
@@ -54,9 +65,11 @@
                                     <td class="px-6 py-4">{{ $item->user->name ?? 'User Tidak Ditemukan' }}</td>
                                     <td class="px-6 py-4">{{ $item->keterangan }}</td>
                                     <td class="px-6 py-4">{{ $item->tanggal_pengeluaran }}</td>
-                                    <td class="px-6 py-4">Rp{{ number_format($item->jumlah_pengeluaran, 0, ',', '.') }}</td>
+                                    <td class="px-6 py-4">Rp{{ number_format($item->jumlah_pengeluaran, 0, ',', '.') }}
+                                    </td>
                                     <td class="px-6 py-4 text-center space-x-2">
-                                        <button class="text-blue-500 hover:underline edit-btn" data-id="{{ $item->id }}"
+                                        <button class="text-blue-500 hover:underline edit-btn"
+                                            data-id="{{ $item->id }}"
                                             data-jumlah_pengeluaran="{{ $item->jumlah_pengeluaran }}"
                                             data-keterangan="{{ $item->keterangan }}">
                                             Ubah
@@ -120,7 +133,6 @@
                             <span class="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <!-- Unique form ID for edit functionality -->
                     <form id="editForm">
                         @csrf
                         <div class="mb-4">
