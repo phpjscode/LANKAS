@@ -1,4 +1,4 @@
-<x-layout :title="$title" :pengeluaran="$pengeluaran">
+<x-layout :title="$title">
     @section('page')
         <main class="bg-slate-100 h-screen pt-20 p-4 sm:ml-64 font-poppins">
             <div class="relative overflow-x-auto">
