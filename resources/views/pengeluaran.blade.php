@@ -86,7 +86,7 @@
                         <div class="mb-4">
                             <label for="jumlah_pengeluaran" class="block text-sm font-medium text-gray-700">Jumlah
                                 Pengeluaran</label>
-                            <input type="number" id="jumlah_pengeluaran" name="jumlah_pengeluaran"
+                            <input type="number" placeholder="Rp" id="jumlah_pengeluaran" name="jumlah_pengeluaran"
                                 class="mt-1 p-2 border rounded w-full" required>
                         </div>
 
@@ -120,6 +120,23 @@
                         $('#editForm')[0].reset(); // Reset form edit siswa
                         $('#tambahForm')[0].reset(); // Reset form tambah siswa
                     }
+
+                    $('#tambahForm').submit(function(e) {
+                        e.preventDefault();
+                        $.ajax({
+                            url: '{{ route('pengeluaran.store') }}',
+                            method: 'POST',
+                            data: $(this).serialize(),
+                            success: function(response) {
+                                alert(response.success); // Menampilkan pesan sukses
+                                closeModal(); // Menutup modal setelah data berhasil disimpan
+                                location.reload(); // Memuat ulang halaman agar data terbaru muncul
+                            },
+                            error: function(xhr) {
+                                alert('Gagal menyimpan pengeluaran');
+                            }
+                        });
+                    });
                 });
             </script>
         </main>

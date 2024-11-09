@@ -41,4 +41,5 @@ Route::middleware('auth')->group(function () {
 
   // Pengeluaran routes
   Route::get('/pengeluaran', [PengeluaranController::class, 'showPengeluaran'])->name('pengeluaran');
+  Route::post('/pengeluaran', [PengeluaranController::class, 'storePengeluaran'])->name('pengeluaran.store');
 });
