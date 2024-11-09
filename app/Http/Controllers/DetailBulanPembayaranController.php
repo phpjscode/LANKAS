@@ -22,6 +22,31 @@ class DetailBulanPembayaranController extends Controller
         ]);
     }
 
+    public function filterPembayaranSiswa(Request $request, $id)
+    {
+        // Dapatkan bulan pembayaran dan parameter
+        $bulan = BulanPembayaran::with('uangKas.siswa')->findOrFail($id);
+        $pembayaranPerminggu = $bulan->pembayaran_perminggu;
+
+        // Ambil jumlah data yang ingin ditampilkan dari request, default 5
+        $jumlah = $request->input('jumlah', 5);
+        $search = $request->input('search', '');
+
+        // Filter UangKas berdasarkan nama siswa dan jumlah
+        $uangKas = $bulan->uangKas()
+            ->whereHas('siswa', function ($query) use ($search) {
+                $query->where('nama_siswa', 'like', '%' . $search . '%');
+            })
+            ->paginate($jumlah);
+
+        // Mengembalikan view "partial" khusus untuk table UangKas
+        return view('components.table-siswa-detail-bulan-pembayaran', [
+            'uangKas' => $uangKas,
+            'pembayaranPerminggu' => $pembayaranPerminggu
+        ])->render();
+    }
+
+
     public function updatePembayaranUangKasSiswa(Request $request)
     {
         // Dapatkan id bulan pembayaran berdasarkan siswa

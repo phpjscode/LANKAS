@@ -40,63 +40,7 @@
 
                 <!-- Table -->
                 <div class="flex flex-col mt-4">
-                    <div class="overflow-auto max-h-[calc(100vh-15rem)] border rounded">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3">No</th>
-                                    <th class="px-6 py-3">Nama Siswa</th>
-                                    <th class="px-6 py-3">Minggu Ke-1</th>
-                                    <th class="px-6 py-3">Minggu Ke-2</th>
-                                    <th class="px-6 py-3">Minggu Ke-3</th>
-                                    <th class="px-6 py-3">Minggu Ke-4</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($bulan->uangKas as $index => $kas)
-                                    <tr class="bg-white border-b">
-                                        <td class="px-6 py-4">{{ $index + 1 }}</td>
-                                        <td class="px-6 py-4">{{ $kas->siswa->nama_siswa }}</td>
-
-                                        @php
-                                            // Mulai dari minggu pertama sebagai yang terbuka secara default
-                                            $isMingguTerbuka = true;
-                                        @endphp
-
-                                        @for ($i = 1; $i <= 4; $i++)
-                                            @php
-                                                // Cek apakah minggu ini sudah mencapai atau melebihi nilai pembayaran perminggu
-                                                $isMingguIniLengkap = $kas->{'minggu_ke_' . $i} >= $pembayaranPerminggu;
-                                            @endphp
-
-                                            <td class="px-6 py-4">
-                                                <button
-                                                    class="text-xs p-1 rounded 
-                                                    {{ $isMingguIniLengkap
-                                                        ? 'bg-green-600 text-white'
-                                                        : (!$isMingguTerbuka
-                                                            ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-                                                            : 'bg-red-600 text-white') }}"
-                                                    onclick="openEditModal({{ $kas->id_siswa }}, 'minggu_ke_{{ $i }}', {{ $kas->{'minggu_ke_' . $i} }})"
-                                                    {{ !$isMingguTerbuka ? 'disabled' : '' }}>
-
-                                                    {{ !$isMingguTerbuka ? '<---' : number_format($kas->{'minggu_ke_' . $i}, 0, ',', '.') }}
-                                                </button>
-                                            </td>
-
-                                            @php
-                                                // Ubah status minggu terbuka sesuai status penyelesaian minggu ini
-                                                $isMingguTerbuka = $isMingguIniLengkap;
-                                            @endphp
-                                        @endfor
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="px-6 py-4 text-center">Data siswa tidak ditemukan.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <div id="uangKasTableContainer" class="overflow-auto max-h-[calc(100vh-15rem)] border rounded">
                     </div>
                 </div>
             </div>
@@ -181,6 +125,36 @@
                         }
                     });
                 });
+
+
+                function loadUangKas() {
+                    let jumlah = $('#jumlah').val();
+                    let search = $('#search').val();
+
+                    $.ajax({
+                        url: '{{ route('detailbulanpembayaran.filter', ['id' => $bulan->id]) }}',
+                        type: 'GET',
+                        data: {
+                            jumlah: jumlah,
+                            search: search
+                        },
+                        success: function(data) {
+                            $('#uangKasTableContainer').html(data);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
+                            alert('Terjadi kesalahan saat memuat data');
+                        }
+                    });
+                }
+
+                // Trigger saat jumlah atau search berubah
+                $('#jumlah, #search').on('change keyup', function() {
+                    loadUangKas();
+                });
+
+                // Load data pertama kali
+                loadUangKas();
             </script>
         </main>
     @endsection

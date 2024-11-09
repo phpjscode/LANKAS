@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
 
   // Detail Bulan Pembayaran routes
   Route::post('/detail-bulan-pembayaran/{id}', [DetailBulanPembayaranController::class, 'showBulanPembayaran'])->name('detailbulanpembayaran');
+  Route::get('/detail-bulan-pembayaran/{id}/filter', [DetailBulanPembayaranController::class, 'filterPembayaranSiswa'])->name('detailbulanpembayaran.filter');
   Route::post('/update-pembayaran-uang-kas-siswa', [DetailBulanPembayaranController::class, 'updatePembayaranUangKasSiswa'])->name('detailbulanpembayaran.update');
 
   // Pengeluaran routes
