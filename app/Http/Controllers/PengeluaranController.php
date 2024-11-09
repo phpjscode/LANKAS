@@ -10,8 +10,10 @@ class PengeluaranController extends Controller
 {
     public function showPengeluaran()
     {
+        $pengeluaran = Pengeluaran::with('user')->get();
         return view('pengeluaran', [
-            'title' => 'Pengeluaran'
+            'title' => 'Pengeluaran',
+            'pengeluaran' => $pengeluaran
         ]);
     }
 
@@ -32,5 +34,30 @@ class PengeluaranController extends Controller
         ]);
 
         return response()->json(['success' => 'Pengeluaran berhasil ditambahkan']);
+    }
+
+    public function updatePengeluaran(Request $request, $id)
+    {
+        $request->validate([
+            'jumlah_pengeluaran' => 'required|numeric',
+            'keterangan' => 'required|string|max:255',
+        ]);
+
+        $pengeluaran = Pengeluaran::findOrFail($id);
+
+        $pengeluaran->update([
+            'jumlah_pengeluaran' => $request->jumlah_pengeluaran,
+            'keterangan' => $request->keterangan,
+        ]);
+        return response()->json(['message' => 'Data pengeluaran berhasil diperbarui.']);
+    }
+
+
+    public function destroyPengeluaran($id)
+    {
+        $pengeluaran = Pengeluaran::findOrFail($id);
+        $pengeluaran->delete();
+
+        return response()->json(['message' => 'Pengeluaran berhasil dihapus.']);
     }
 }

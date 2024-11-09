@@ -22,7 +22,6 @@ return new class extends Migration
                 ->onDelete('cascade'); // Jika user dihapus, hapus juga data pengeluarannya
         });
     }
-
     /**
      * Reverse the migrations.
      */
