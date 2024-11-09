@@ -150,6 +150,9 @@
             }
         });
 
+        // Tutup modal saat tombol batal atau close diklik
+        $(document).on('click', '.close-modal-btn', closeModal);
+
         // Fungsi untuk menutup modal
         function closeModal() {
             $('#editModal, #tambahModal').addClass('hidden').removeClass('flex');
@@ -244,9 +247,6 @@
                 }
             });
         });
-
-        // Tutup modal saat tombol batal atau close diklik
-        $(document).on('click', '.close-modal-btn', closeModal);
 
         // Filter jumlah data siswa yang ditampilkan berdasarkan pilihan "entries"
         $('#jumlah').on('change', function() {
