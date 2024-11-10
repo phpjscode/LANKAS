@@ -5,11 +5,11 @@
 
 <body>
 
-    <section class="bg-gray-50">
+    <section class="bg-gray-50 font-poppins">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
             <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+                    <h1 class="text-xl font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl">
                         Login to your account
                     </h1>
                     @if (session('status'))
@@ -19,7 +19,7 @@
                         </div>
                     @endif
                     <form class="space-y-4 md:space-y-6" action="{{ route('login') }}" method="POST" id="loginForm">
-                        @csrf <!-- Token CSRF untuk keamanan -->
+                        @csrf
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                             <input type="email" name="email" id="email"
@@ -54,6 +54,7 @@
                                 icon: 'error',
                                 title: 'Login gagal',
                                 text: '{{ $errors->first() }}',
+                                confirmButtonColor: '#3B82F6'
                             });
                         </script>
                     @endif
