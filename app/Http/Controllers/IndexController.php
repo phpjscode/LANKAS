@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Siswa; // Pastikan model Siswa sudah diimport
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Import facade Auth jika belum
+use App\Models\Siswa;
 
 class IndexController extends Controller
 {
+    /**
+     * Tampilkan halaman dashboard.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showDashboard()
     {
-        $siswa = Siswa::count(); // Mengambil semua data siswa
+        // Menghitung jumlah siswa
+        $siswa = Siswa::count();
 
+        // Mengembalikan view dengan data yang diperlukan
         return view('index', [
-            'title' => 'Dashboard',
-            'siswa' => $siswa, // Mengirim variabel siswa ke view
+            'title' => 'Dashboard', // Judul halaman
+            'siswa' => $siswa,      // Jumlah siswa
         ]);
     }
 }
