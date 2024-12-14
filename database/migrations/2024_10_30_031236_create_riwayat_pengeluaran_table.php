@@ -14,13 +14,12 @@ class CreateRiwayatPengeluaranTable extends Migration
     public function up()
     {
         Schema::create('riwayat_pengeluaran', function (Blueprint $table) {
-            $table->bigIncrements('id'); // Primary Key, Auto Increment
-            $table->unsignedBigInteger('id_user'); // Foreign Key to users table
+            $table->id(); // Primary Key, Auto Increment
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade'); // Foreign Key to users table
             $table->text('aksi'); // Action Description
-            $table->integer('tanggal')->length(10); // Date stored as integer (timestamp)
+            $table->timestamp('tanggal')->useCurrent(); // Date stored as timestamp with current default
 
-            // Define foreign key constraint
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps(); // Created_at and Updated_at columns
         });
     }
 

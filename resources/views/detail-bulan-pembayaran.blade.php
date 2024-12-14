@@ -19,6 +19,7 @@
                             <span>Tambah Siswa</span>
                         </a>
                     </div>
+                    
                     <div class="flex items-center justify-between">
                         <div class="flex items-center justify-start space-x-2 mb-4">
                             <label for="jumlah" class="text-sm font-medium text-gray-700">Show</label>

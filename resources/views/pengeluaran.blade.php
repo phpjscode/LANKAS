@@ -36,12 +36,11 @@
                                     <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
                                     <input type="text" id="search" name="search"
                                         class="p-1 text-sm border rounded w-40" placeholder="Cari pengeluaran..."
-                                        value="{{ request('search') }}" oninput="this.form.submit()">
+                                        value="{{ request('search') }}">
                                 </div>
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
 
@@ -256,6 +255,27 @@
                         $('#editForm')[0].reset(); // Reset form edit siswa
                         $('#tambahForm')[0].reset(); // Reset form tambah siswa
                     }
+
+                    $('#search').on('input', function() {
+                        let searchValue = $(this).val(); // Ambil nilai input pencarian
+                        let perPage = $('#jumlah').val(); // Ambil nilai jumlah per halaman (pagination)
+
+                        $.ajax({
+                            url: '{{ route('pengeluaran') }}', // URL untuk melakukan pencarian
+                            method: 'GET',
+                            data: {
+                                search: searchValue,
+                                jumlah: perPage
+                            },
+                            success: function(response) {
+                                // Menampilkan hasil pencarian di dalam tabel
+                                $('tbody').html(response.html); // Ganti isi tabel dengan data yang baru
+                            },
+                            error: function(xhr) {
+                                alert('Gagal melakukan pencarian');
+                            }
+                        });
+                    });
                 });
             </script>
         </main>

@@ -1,4 +1,6 @@
-module.exports = {
+import flowbite from "flowbite/plugin";
+
+export default {
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
@@ -8,5 +10,5 @@ module.exports = {
     theme: {
         extend: {},
     },
-    plugins: [require("flowbite/plugin")],
+    plugins: [flowbite],
 };

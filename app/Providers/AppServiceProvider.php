@@ -10,6 +10,7 @@ use App\Observers\SiswaObserver;
 use App\Observers\BulanPembayaranObserver;
 use App\Models\UangKas;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,16 +31,21 @@ class AppServiceProvider extends ServiceProvider
         Siswa::observe(SiswaObserver::class);
         BulanPembayaran::observe(BulanPembayaranObserver::class);
 
-        // Hitung total nilai dari minggu_ke_1 hingga minggu_ke_4 untuk semua siswa
-        $totalUangKotor = UangKas::sum('minggu_ke_1')
-            + UangKas::sum('minggu_ke_2')
-            + UangKas::sum('minggu_ke_3')
-            + UangKas::sum('minggu_ke_4');
+        $totalUangKotor = 0;
+        $totalUangPengeluaran = 0;
 
-        $totalUangPengeluaran = Pengeluaran::sum('jumlah_pengeluaran');
+        // Pastikan tabel UangKas dan Pengeluaran sudah ada sebelum mengakses
+        if (Schema::hasTable('uang_kas') && Schema::hasTable('pengeluaran')) {
+            // Hitung total nilai dari minggu_ke_1 hingga minggu_ke_4 untuk semua siswa
+            $totalUangKotor = UangKas::sum('minggu_ke_1')
+                + UangKas::sum('minggu_ke_2')
+                + UangKas::sum('minggu_ke_3')
+                + UangKas::sum('minggu_ke_4');
+
+            $totalUangPengeluaran = Pengeluaran::sum('jumlah_pengeluaran');
+        }
 
         $totalUangBersih = $totalUangKotor - $totalUangPengeluaran;
-
 
         // Bagikan variabel ke semua view
         View::share([
