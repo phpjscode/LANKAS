@@ -14,12 +14,14 @@ class CreateRiwayatPengeluaranTable extends Migration
     public function up()
     {
         Schema::create('riwayat_pengeluaran', function (Blueprint $table) {
-            $table->id(); // Primary Key, Auto Increment
-            $table->foreignId('id_user')->constrained('users')->onDelete('cascade'); // Foreign Key to users table
-            $table->text('aksi'); // Action Description
-            $table->timestamp('tanggal')->useCurrent(); // Date stored as timestamp with current default
+            $table->id(); // Primary Key
+            $table->unsignedBigInteger('id_user'); // Foreign Key ke tabel users
+            $table->text('aksi'); // Deskripsi riwayat
+            $table->timestamp('tanggal')->useCurrent(); // Waktu aksi
+            $table->timestamps(); // Tambahan created_at dan updated_at
 
-            $table->timestamps(); // Created_at and Updated_at columns
+            // Relasi dengan tabel users
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

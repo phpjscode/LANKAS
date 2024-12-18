@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Pengeluaran;
+use App\Models\RiwayatPengeluaran;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PengeluaranController extends Controller
@@ -28,7 +29,6 @@ class PengeluaranController extends Controller
         ]);
     }
 
-
     public function storePengeluaran(Request $request)
     {
         // Validasi input
@@ -37,16 +37,28 @@ class PengeluaranController extends Controller
             'keterangan' => 'required|string',
         ]);
 
-        // Simpan pengeluaran sesuai user yang sedang login
-        Pengeluaran::create([
-            'id_user' => Auth::id(), // Mendapatkan ID pengguna yang sedang login
-            'jumlah_pengeluaran' => $request->jumlah_pengeluaran,
-            'keterangan' => $request->keterangan,
-            'tanggal_pengeluaran' => now(), // Mengisi tanggal_pengeluaran dengan waktu saat ini
-        ]);
+        try {
+            // Simpan pengeluaran sesuai user yang sedang login
+            $pengeluaran = Pengeluaran::create([
+                'id_user' => Auth::id(), // Mendapatkan ID pengguna yang sedang login
+                'jumlah_pengeluaran' => $request->jumlah_pengeluaran,
+                'keterangan' => $request->keterangan,
+                'tanggal_pengeluaran' => now(), // Mengisi tanggal_pengeluaran dengan waktu saat ini
+            ]);
 
-        return response()->json(['success' => 'Pengeluaran berhasil ditambahkan']);
+            // Simpan riwayat ke tabel 'riwayat_pengeluaran'
+            RiwayatPengeluaran::create([
+                'id_user' => Auth::id(), // ID pengguna yang sama
+                'aksi' => Auth::user()->name . " menambahkan pengeluaran: {$request->keterangan} sebesar Rp. " . number_format($request->jumlah_pengeluaran),
+                'tanggal' => now(), // Waktu saat ini
+            ]);
+
+            return response()->json(['success' => 'Pengeluaran dan riwayat berhasil ditambahkan']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
     }
+
 
     public function updatePengeluaran(Request $request, $id)
     {

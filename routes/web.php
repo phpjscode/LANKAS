@@ -7,6 +7,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UangKasController;
 use App\Http\Controllers\PengeluaranController;
+use App\Http\Controllers\RiwayatPengeluaranController;
 use App\Http\Controllers\DetailBulanPembayaranController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -45,4 +46,6 @@ Route::middleware('auth')->group(function () {
   Route::post('/pengeluaran', [PengeluaranController::class, 'storePengeluaran'])->name('pengeluaran.store');
   Route::delete('/pengeluaran/{id}', [PengeluaranController::class, 'destroyPengeluaran'])->name('pengeluaran.destroy');
   Route::patch('/pengeluaran/{id}', [PengeluaranController::class, 'updatePengeluaran'])->name('pengeluaran.update');
+
+  Route::get('/riwayat-pengeluaran', [RiwayatPengeluaranController::class, 'showRiwayatPengeluaran'])->name('riwayatpengeluaran');
 });
