@@ -33,13 +33,13 @@ class PengeluaranController extends Controller
     {
         // Validasi input
         $request->validate([
-            'jumlah_pengeluaran' => 'required|numeric',
+            'jumlah_pengeluaran' => 'required|numeric|min:1|max:1000000',
             'keterangan' => 'required|string',
         ]);
 
         try {
             // Simpan pengeluaran sesuai user yang sedang login
-            $pengeluaran = Pengeluaran::create([
+            Pengeluaran::create([
                 'id_user' => Auth::id(), // Mendapatkan ID pengguna yang sedang login
                 'jumlah_pengeluaran' => $request->jumlah_pengeluaran,
                 'keterangan' => $request->keterangan,
@@ -53,12 +53,11 @@ class PengeluaranController extends Controller
                 'tanggal' => now(), // Waktu saat ini
             ]);
 
-            return response()->json(['success' => 'Pengeluaran dan riwayat berhasil ditambahkan']);
+            return response()->json(['success' => 'Pengeluaran berhasil ditambahkan']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
         }
     }
-
 
     public function updatePengeluaran(Request $request, $id)
     {

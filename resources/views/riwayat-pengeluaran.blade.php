@@ -3,19 +3,6 @@
         <main class="bg-slate-100 h-screen pt-20 p-4 sm:ml-64 font-poppins">
             <div class="relative overflow-x-auto">
                 <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h1 class="text-2xl">{{ $title }}</h1>
-                        <button
-                            class="tambah-btn flex items-center justify-center space-x-1 px-4 py-2 rounded bg-blue-500 text-white">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6" fill="#ffffff">
-                                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                                </svg>
-                            </div>
-                            <span>Tambah Pengeluaran</span>
-                        </button>
-                    </div>
-
                     <div>
                         <form method="GET" action="{{ route('pengeluaran') }}">
                             <div class="flex items-center justify-between">
@@ -53,29 +40,15 @@
                                 <th class="px-6 py-3">Nama</th>
                                 <th class="px-6 py-3">Keterangan</th>
                                 <th class="px-6 py-3">Tanggal Pengeluaran</th>
-                                <th class="px-6 py-3">Jumlah Pengeluaran</th>
-                                <th class="px-6 py-3 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($pengeluaran as $index => $item)
+                            @forelse($riwayatPengeluaran as $index => $item)
                                 <tr class="bg-white border-b">
                                     <td class="px-6 py-4">{{ $index + 1 }}</td>
                                     <td class="px-6 py-4">{{ $item->user->name ?? 'User Tidak Ditemukan' }}</td>
-                                    <td class="px-6 py-4">{{ $item->keterangan }}</td>
-                                    <td class="px-6 py-4">{{ $item->tanggal_pengeluaran }}</td>
-                                    <td class="px-6 py-4">Rp{{ number_format($item->jumlah_pengeluaran, 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-6 py-4 text-center space-x-2">
-                                        <button class="text-blue-500 hover:underline edit-btn"
-                                            data-id="{{ $item->id }}"
-                                            data-jumlah_pengeluaran="{{ $item->jumlah_pengeluaran }}"
-                                            data-keterangan="{{ $item->keterangan }}">
-                                            Ubah
-                                        </button>
-                                        <button class="text-red-500 hover:underline hapus-btn"
-                                            data-id="{{ $item->id }}">Hapus</button>
-                                    </td>
+                                    <td class="px-6 py-4">{{ $item->aksi }}</td>
+                                    <td class="px-6 py-4">{{ $item->tanggal }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -141,8 +114,7 @@
                                 class="mt-1 p-2 border rounded w-full" required>
                         </div>
                         <div class="mb-4">
-                            <label for="edit_keterangan"
-                                class="block text-sm font-medium text-gray-700">Keterangan</label>
+                            <label for="edit_keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
                             <textarea id="edit_keterangan" name="keterangan" class="mt-1 p-2 border rounded w-full" rows="4" required></textarea>
                         </div>
                         <div class="flex justify-end">
