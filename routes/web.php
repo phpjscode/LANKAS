@@ -41,8 +41,8 @@ Route::middleware('auth')->group(function () {
   Route::post('/update-pembayaran-uang-kas-siswa', [DetailBulanPembayaranController::class, 'updatePembayaranUangKasSiswa'])->name('detailbulanpembayaran.update');
 
   // Pengeluaran routes
-  Route::get('/pengeluaran', [PengeluaranController::class, 'showPengeluaran'])->name('pengeluaran');
-  Route::get('/pengeluaran/filter', [PengeluaranController::class, 'filterPengeluaran'])->name('pengeluaran.filter');
+  Route::match(['GET', 'POST'], '/pengeluaran', [PengeluaranController::class, 'showPengeluaran'])->name('pengeluaran');
+  Route::get('/pengeluaran/filter', [SiswaController::class, 'filterPengeluaran'])->name('pengeluaran.filter');
   Route::post('/pengeluaran', [PengeluaranController::class, 'storePengeluaran'])->name('pengeluaran.store');
   Route::delete('/pengeluaran/{id}', [PengeluaranController::class, 'destroyPengeluaran'])->name('pengeluaran.destroy');
   Route::patch('/pengeluaran/{id}', [PengeluaranController::class, 'updatePengeluaran'])->name('pengeluaran.update');

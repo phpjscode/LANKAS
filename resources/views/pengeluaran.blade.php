@@ -16,76 +16,26 @@
                         </button>
                     </div>
 
-                    <div>
-                        <form method="GET" action="{{ route('pengeluaran') }}">
-                            <div class="flex items-center justify-between">
-                                <!-- Dropdown untuk jumlah entri -->
-                                <div class="flex items-center justify-start space-x-2 mb-4">
-                                    <label for="jumlah" class="text-sm font-medium text-gray-700">Show</label>
-                                    <select id="jumlah" name="jumlah" class="p-1 text-sm border rounded"
-                                        onchange="this.form.submit()">
-                                        <option value="5" {{ request('jumlah') == 5 ? 'selected' : '' }}>5</option>
-                                        <option value="20" {{ request('jumlah') == 20 ? 'selected' : '' }}>20</option>
-                                        <option value="50" {{ request('jumlah') == 50 ? 'selected' : '' }}>50</option>
-                                    </select>
-                                    <p class="text-sm">entries</p>
-                                </div>
-
-                                <!-- Input untuk pencarian -->
-                                <div class="flex items-center space-x-2 mb-4">
-                                    <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
-                                    <input type="text" id="search" name="search"
-                                        class="p-1 text-sm border rounded w-40" placeholder="Cari pengeluaran..."
-                                        value="{{ request('search') }}">
-                                </div>
-                            </div>
-                        </form>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-start space-x-2 mb-4">
+                            <label for="jumlah" class="text-sm font-medium text-gray-700">Show</label>
+                            <select id="jumlah" name="jumlah" class="p-1 text-sm border rounded">
+                                <option value="5" {{ request('jumlah') == 5 ? 'selected' : '' }}>5</option>
+                                <option value="20" {{ request('jumlah') == 20 ? 'selected' : '' }}>20</option>
+                                <option value="50" {{ request('jumlah') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
+                            <p class="text-sm">entries</p>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-4">
+                            <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
+                            <input type="text" id="search" name="search" class="p-1 text-sm border rounded w-40"
+                                placeholder="Cari pengeluaran...">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col mt-4">
-                <div class="overflow-auto max-h-[calc(100vh-15rem)] border rounded">
-                    <table class="w-full text-sm text-left text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3">No</th>
-                                <th class="px-6 py-3">Nama</th>
-                                <th class="px-6 py-3">Keterangan</th>
-                                <th class="px-6 py-3">Tanggal Pengeluaran</th>
-                                <th class="px-6 py-3">Jumlah Pengeluaran</th>
-                                <th class="px-6 py-3 text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($pengeluaran as $index => $item)
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4">{{ $index + 1 }}</td>
-                                    <td class="px-6 py-4">{{ $item->user->name ?? 'User Tidak Ditemukan' }}</td>
-                                    <td class="px-6 py-4">{{ $item->keterangan }}</td>
-                                    <td class="px-6 py-4">{{ $item->tanggal_pengeluaran }}</td>
-                                    <td class="px-6 py-4">Rp{{ number_format($item->jumlah_pengeluaran, 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-6 py-4 text-center space-x-2">
-                                        <button class="text-blue-500 hover:underline edit-btn"
-                                            data-id="{{ $item->id }}"
-                                            data-jumlah_pengeluaran="{{ $item->jumlah_pengeluaran }}"
-                                            data-keterangan="{{ $item->keterangan }}">
-                                            Ubah
-                                        </button>
-                                        <button class="text-red-500 hover:underline hapus-btn"
-                                            data-id="{{ $item->id }}">Hapus</button>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="px-6 py-4 text-center">Data pengeluaran tidak ditemukan.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <x-table-pengeluaran :pengeluaran="$pengeluaran"></x-table-pengeluaran>
 
             <div id="tambahModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center p-4">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md sm:w-1/3">
@@ -141,8 +91,7 @@
                                 class="mt-1 p-2 border rounded w-full" required>
                         </div>
                         <div class="mb-4">
-                            <label for="edit_keterangan"
-                                class="block text-sm font-medium text-gray-700">Keterangan</label>
+                            <label for="edit_keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
                             <textarea id="edit_keterangan" name="keterangan" class="mt-1 p-2 border rounded w-full" rows="4" required></textarea>
                         </div>
                         <div class="flex justify-end">

@@ -11,21 +11,38 @@ class PengeluaranController extends Controller
 {
     public function showPengeluaran(Request $request)
     {
-        // Mengambil parameter jumlah dan search dari request
-        $perPage = $request->get('jumlah', 5);  // Default ke 5 jika tidak ada parameter
-        $search = $request->get('search', '');
+        $jumlah = $request->input('jumlah', 5);
+        $pengeluaran = Pengeluaran::paginate($jumlah);
 
-        // Query untuk mengambil pengeluaran dengan relasi 'user' dan filter berdasarkan pencarian
-        $pengeluaran = Pengeluaran::with('user')
-            ->where('keterangan', 'like', "%$search%")  // Filter berdasarkan keterangan
-            ->orWhereHas('user', function ($query) use ($search) {
-                $query->where('name', 'like', "%$search%");  // Filter berdasarkan nama pengguna
-            })
-            ->paginate($perPage);  // Pagination berdasarkan jumlah yang dipilih
+        if ($request->ajax()) {
+            return view('components.table-pengeluaran', compact('pengeluaran'))->render();
+        }
 
         return view('pengeluaran', [
             'title' => 'Pengeluaran',
             'pengeluaran' => $pengeluaran
+        ]);
+    }
+
+    public function filterPengeluaran(Request $request)
+    {
+        $query = Pengeluaran::query();
+
+        if ($request->has('search') && $request->search !== '') {
+            $query->where('jumlah_pengeluaran', 'like', '%' . $request->search . '%')
+                ->orWhere('keterangan', 'like', '%' . $request->search . '%')
+                ->orWhere('tanggal_pengeluaran', 'like', '%' . $request->search . '%');
+        }
+
+        $pengeluaran = $query->get();
+
+        if ($request->ajax()) {
+            return view('components.table-pengeluaran', compact('pengeluaran'))->render();
+        }
+
+        return view('pengeluaran', [
+            'pengeluaran' => $pengeluaran,
+            'title' => 'Pengeluaran'
         ]);
     }
 
@@ -49,7 +66,7 @@ class PengeluaranController extends Controller
             // Simpan riwayat ke tabel 'riwayat_pengeluaran'
             RiwayatPengeluaran::create([
                 'id_user' => Auth::id(), // ID pengguna yang sama
-                'aksi' => Auth::user()->name . " menambahkan pengeluaran: {$request->keterangan} sebesar Rp. " . number_format($request->jumlah_pengeluaran),
+                'aksi' => "menambahkan pengeluaran: {$request->keterangan} dengan biaya Rp" . number_format($request->jumlah_pengeluaran, 0, ',', '.'),
                 'tanggal' => now(), // Waktu saat ini
             ]);
 
