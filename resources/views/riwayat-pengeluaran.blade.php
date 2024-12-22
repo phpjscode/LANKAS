@@ -3,62 +3,30 @@
         <main class="bg-slate-100 h-screen pt-20 p-4 sm:ml-64 font-poppins">
             <div class="relative overflow-x-auto">
                 <div class="space-y-4">
-                    <div>
-                        <form method="GET" action="{{ route('pengeluaran') }}">
-                            <div class="flex items-center justify-between">
-                                <!-- Dropdown untuk jumlah entri -->
-                                <div class="flex items-center justify-start space-x-2 mb-4">
-                                    <label for="jumlah" class="text-sm font-medium text-gray-700">Show</label>
-                                    <select id="jumlah" name="jumlah" class="p-1 text-sm border rounded"
-                                        onchange="this.form.submit()">
-                                        <option value="5" {{ request('jumlah') == 5 ? 'selected' : '' }}>5</option>
-                                        <option value="20" {{ request('jumlah') == 20 ? 'selected' : '' }}>20</option>
-                                        <option value="50" {{ request('jumlah') == 50 ? 'selected' : '' }}>50</option>
-                                    </select>
-                                    <p class="text-sm">entries</p>
-                                </div>
+                    <div class="flex items-center justify-between">
+                        <h1 class="text-2xl">{{ $title }}</h1>
+                    </div>
 
-                                <!-- Input untuk pencarian -->
-                                <div class="flex items-center space-x-2 mb-4">
-                                    <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
-                                    <input type="text" id="search" name="search"
-                                        class="p-1 text-sm border rounded w-40" placeholder="Cari pengeluaran..."
-                                        value="{{ request('search') }}">
-                                </div>
-                            </div>
-                        </form>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-start space-x-2 mb-4">
+                            <label for="jumlah" class="text-sm font-medium text-gray-700">Show</label>
+                            <select id="jumlah" name="jumlah" class="p-1 text-sm border rounded">
+                                <option value="5" {{ request('jumlah') == 5 ? 'selected' : '' }}>5</option>
+                                <option value="20" {{ request('jumlah') == 20 ? 'selected' : '' }}>20</option>
+                                <option value="50" {{ request('jumlah') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
+                            <p class="text-sm">entries</p>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-4">
+                            <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
+                            <input type="text" id="search" name="search" class="p-1 text-sm border rounded w-40"
+                                placeholder="Cari pengeluaran...">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col mt-4">
-                <div class="overflow-auto max-h-[calc(100vh-15rem)] border rounded">
-                    <table class="w-full text-sm text-left text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3">No</th>
-                                <th class="px-6 py-3">Nama</th>
-                                <th class="px-6 py-3">Keterangan</th>
-                                <th class="px-6 py-3">Tanggal Pengeluaran</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($riwayatPengeluaran as $index => $item)
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4">{{ $index + 1 }}</td>
-                                    <td class="px-6 py-4">{{ $item->user->name ?? 'User Tidak Ditemukan' }}</td>
-                                    <td class="px-6 py-4">{{ $item->aksi }}</td>
-                                    <td class="px-6 py-4">{{ $item->tanggal }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="px-6 py-4 text-center">Data pengeluaran tidak ditemukan.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <x-table-riwayat-pengeluaran :riwayatPengeluaran="$riwayatPengeluaran"></x-table-riwayat-pengeluaran>
 
             <div id="tambahModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center p-4">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md sm:w-1/3">
@@ -125,131 +93,6 @@
                     </form>
                 </div>
             </div>
-
-
-            <script>
-                $(document).ready(function() {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
-                    // Menampilkan modal tambah pengeluaran
-                    $(document).on('click', '.tambah-btn', function() {
-                        $('#tambahModal').removeClass('hidden').addClass('flex');
-                    });
-
-                    // Menambahkan data pengeluaran dari modal tambah pengeluaran ke tabel pengeluaran
-                    $('#tambahForm').submit(function(e) {
-                        e.preventDefault();
-                        $.ajax({
-                            url: '{{ route('pengeluaran.store') }}',
-                            method: 'POST',
-                            data: $(this).serialize(),
-                            success: function(response) {
-                                alert(response.success);
-                                closeModal();
-                                location.reload();
-                            },
-                            error: function(xhr) {
-                                alert('Gagal menyimpan pengeluaran');
-                            }
-                        });
-                    });
-
-                    // menampilkan modal edit pengeluaran
-                    $(document).on('click', '.edit-btn', function() {
-                        let id = $(this).data('id');
-                        let jumlah_pengeluaran = $(this).data('jumlah_pengeluaran');
-                        let keterangan = $(this).data('keterangan');
-
-                        // Set values in edit modal
-                        $('#edit_jumlah_pengeluaran').val(jumlah_pengeluaran);
-                        $('#edit_keterangan').val(keterangan);
-
-                        // Store ID in the modal for easy access during submit
-                        $('#editModal').data('id', id).removeClass('hidden').addClass('flex');
-                    });
-
-                    // Mengedit data pengeluaran dari modal edit pengeluaran ke tabel pengeluaran
-                    $('#editForm').on('submit', function(e) {
-                        e.preventDefault();
-
-                        // Retrieve ID and form data
-                        let id = $('#editModal').data('id');
-                        let formData = {
-                            jumlah_pengeluaran: $('#edit_jumlah_pengeluaran').val(),
-                            keterangan: $('#edit_keterangan').val(),
-                            _token: '{{ csrf_token() }}'
-                        };
-
-                        // AJAX request for updating
-                        $.ajax({
-                            url: `/pengeluaran/${id}`,
-                            type: 'PATCH',
-                            data: formData,
-                            success: function(response) {
-                                alert('Data pengeluaran berhasil diperbarui!');
-                                location.reload();
-                            },
-                            error: function() {
-                                alert('Terjadi kesalahan. Silakan coba lagi.');
-                            }
-                        });
-                    });
-
-                    // Menampilkan alert hapus pengeluaran sekaligus menghapus data pengeluaran
-                    $(document).on('click', '.hapus-btn', function() {
-                        let id = $(this).data('id');
-
-                        if (confirm('Apakah Anda yakin ingin menghapus pengeluaran ini?')) {
-                            $.ajax({
-                                url: `/pengeluaran/${id}`,
-                                type: 'DELETE',
-                                success: function(response) {
-                                    alert(response.message);
-                                    location.reload();
-                                },
-                                error: function() {
-                                    alert('Terjadi kesalahan. Pengeluaran tidak dapat dihapus.');
-                                }
-                            });
-                        }
-                    });
-
-                    // Menutup modal saat tombol batal atau close diklik
-                    $(document).on('click', '.close-modal-btn', closeModal);
-
-                    // Fungsi yang digunakan untuk menutup modal
-                    function closeModal() {
-                        $('#editModal, #tambahModal').addClass('hidden').removeClass('flex');
-                        $('#editForm')[0].reset(); // Reset form edit siswa
-                        $('#tambahForm')[0].reset(); // Reset form tambah siswa
-                    }
-
-                    $('#search').on('input', function() {
-                        let searchValue = $(this).val(); // Ambil nilai input pencarian
-                        let perPage = $('#jumlah').val(); // Ambil nilai jumlah per halaman (pagination)
-
-                        $.ajax({
-                            url: '{{ route('pengeluaran') }}', // URL untuk melakukan pencarian
-                            method: 'GET',
-                            data: {
-                                search: searchValue,
-                                jumlah: perPage
-                            },
-                            success: function(response) {
-                                // Menampilkan hasil pencarian di dalam tabel
-                                $('tbody').html(response.html); // Ganti isi tabel dengan data yang baru
-                            },
-                            error: function(xhr) {
-                                alert('Gagal melakukan pencarian');
-                            }
-                        });
-                    });
-                });
-            </script>
         </main>
     @endsection
 </x-layout>

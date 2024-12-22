@@ -9,21 +9,37 @@ class RiwayatPengeluaranController extends Controller
 {
     public function showRiwayatPengeluaran(Request $request)
     {
-        // Mengambil parameter jumlah dan search dari request
-        $perPage = $request->get('jumlah', 5);  // Default ke 5 jika tidak ada parameter
-        $search = $request->get('search', '');
+        $jumlah = $request->input('jumlah', 5);
+        $riwayatPengeluaran = RiwayatPengeluaran::paginate($jumlah);
 
-        // Query untuk mengambil pengeluaran dengan relasi 'user' dan filter berdasarkan pencarian
-        $riwayatPengeluaran = RiwayatPengeluaran::with('user')
-            ->where('keterangan', 'like', "%$search%")  // Filter berdasarkan keterangan
-            ->orWhereHas('user', function ($query) use ($search) {
-                $query->where('name', 'like', "%$search%");  // Filter berdasarkan nama pengguna
-            })
-            ->paginate($perPage);  // Pagination berdasarkan jumlah yang dipilih
+        if ($request->ajax()) {
+            return view('components.table-riwayat-pengeluaran', compact('riwayatPengeluaran'))->render();
+        }
 
         return view('riwayat-pengeluaran', [
             'title' => 'Riwayat Pengeluaran',
             'riwayatPengeluaran' => $riwayatPengeluaran
+        ]);
+    }
+
+    public function filterRiwayatPengeluaran(Request $request)
+    {
+        $query = RiwayatPengeluaran::query();
+
+        if ($request->has('search') && $request->search !== '') {
+            $query->where('aksi', 'like', '%' . $request->search . '%')
+                ->orWhere('tanggal', 'like', '%' . $request->search . '%');
+        }
+
+        $riwayatPengeluaran = $query->get();
+
+        if ($request->ajax()) {
+            return view('components.table-riwayat-pengeluaran', compact('riwayatPengeluaran'))->render();
+        }
+
+        return view('riwayat-pengeluaran', [
+            'riwayatPengeluaran' => $riwayatPengeluaran,
+            'title' => 'Riwayat Pengeluaran'
         ]);
     }
 }
