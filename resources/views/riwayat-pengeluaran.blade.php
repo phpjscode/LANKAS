@@ -18,9 +18,9 @@
                             <p class="text-sm">entries</p>
                         </div>
                         <div class="flex items-center space-x-2 mb-4">
-                            <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
+                            <label for="search" class="text-sm font-medium text-gray-700">Cari:</label>
                             <input type="text" id="search" name="search" class="p-1 text-sm border rounded w-40"
-                                placeholder="Cari pengeluaran...">
+                                placeholder="data pengeluaran...">
                         </div>
                     </div>
                 </div>

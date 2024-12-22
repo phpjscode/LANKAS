@@ -1,14 +1,20 @@
-<div class="absolute top-0 left-0 w-full z-40 bg-white shadow-md">
+<div class="absolute top-0 left-0 w-full z-40 bg-white shadow-md font-poppins">
     <div class="flex items-center justify-between px-4">
-        <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
-            type="button" class="inline-flex items-center p-2 my-2 text-sm text-gray-500 rounded-lg">
-            <svg class="w-6 h-6 sm:hidden" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
-                <path clip-rule="evenodd" fill-rule="evenodd"
-                    d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
-                </path>
-            </svg>
-        </button>
+        <div class="flex items-center gap-x-2 sm:ml-60">
+            <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
+                aria-controls="default-sidebar" type="button"
+                class="inline-flex items-center p-2 my-2 text-sm text-gray-500 rounded-lg">
+                <svg class="w-6 h-6 sm:hidden" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd" fill-rule="evenodd"
+                        d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+                    </path>
+                </svg>
+            </button>
+
+            <a href="{{ route('index') }}" class="hidden sm:block font-medium">Aplikasi Pengelolaan Uang Kas</a>
+        </div>
+
 
         <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
             class="inline-flex items-center p-2 my-2 ms-3 text-sm text-gray-500 rounded-lg" type="button">
@@ -84,7 +90,7 @@
                         <path
                             d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                     </svg>
-                    <span class="ms-3">Dashboard</span>
+                    <span class="ms-3">Beranda</span>
                 </a>
             </li>
             <li>

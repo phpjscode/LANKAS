@@ -19,7 +19,7 @@
                             <span>Tambah Siswa</span>
                         </a>
                     </div>
-                    
+
                     <div class="flex items-center justify-between">
                         <div class="flex items-center justify-start space-x-2 mb-4">
                             <label for="jumlah" class="text-sm font-medium text-gray-700">Show</label>
@@ -31,9 +31,9 @@
                             <p class="text-sm">entries</p>
                         </div>
                         <div class="flex items-center space-x-2 mb-4">
-                            <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
+                            <label for="search" class="text-sm font-medium text-gray-700">Cari:</label>
                             <input type="text" id="search" name="search" class="p-1 text-sm border rounded w-40"
-                                placeholder="Cari siswa...">
+                                placeholder="data siswa...">
                         </div>
                     </div>
                 </div>
