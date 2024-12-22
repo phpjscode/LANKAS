@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UangKasController;
 use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\RiwayatPengeluaranController;
+use App\Http\Controllers\RiwayatUangKasController;
 use App\Http\Controllers\DetailBulanPembayaranController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -18,7 +19,7 @@ Route::middleware('auth')->group(function () {
   // Profile routes
   Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
   Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
-  Route::post('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+  Route::post('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.updatepassword');
 
   // Dashboard routes
   Route::get('/', [IndexController::class, 'showDashboard'])->name('index');
@@ -47,6 +48,10 @@ Route::middleware('auth')->group(function () {
   Route::delete('/pengeluaran/{id}', [PengeluaranController::class, 'destroyPengeluaran'])->name('pengeluaran.destroy');
   Route::patch('/pengeluaran/{id}', [PengeluaranController::class, 'updatePengeluaran'])->name('pengeluaran.update');
 
+  // Riwayat Pengeluaran routes
   Route::get('/riwayat-pengeluaran', [RiwayatPengeluaranController::class, 'showRiwayatPengeluaran'])->name('riwayatpengeluaran');
   Route::get('/riwayat-pengeluaran/filter', [RiwayatPengeluaranController::class, 'filterRiwayatPengeluaran'])->name('riwayatpengeluaran.filter');
+
+  // Riwayat Uang Kas routes
+  Route::get('/riwayat-uang-kas', [RiwayatUangKasController::class, 'showRiwayatUangKas'])->name('riwayatuangkas');
 });
