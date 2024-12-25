@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\BulanPembayaran;
 use App\Models\UangKas;
+use App\Models\Siswa;
+use App\Models\RiwayatUangKas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DetailBulanPembayaranController extends Controller
 {
@@ -46,7 +49,6 @@ class DetailBulanPembayaranController extends Controller
         ])->render();
     }
 
-
     public function updatePembayaranUangKasSiswa(Request $request)
     {
         // Dapatkan id bulan pembayaran berdasarkan siswa
@@ -58,18 +60,20 @@ class DetailBulanPembayaranController extends Controller
             return response()->json(['success' => false, 'message' => 'Data uang kas tidak ditemukan'], 400);
         }
 
+        // Dapatkan data siswa
+        $siswa = Siswa::find($request->id_siswa);
+
         // Dapatkan pembayaran per minggu dari tabel BulanPembayaran
         $bulanPembayaran = BulanPembayaran::where('id', $uangKas->id_bulan_pembayaran)->first();
         $pembayaranPerminggu = $bulanPembayaran->pembayaran_perminggu ?? 0;
 
         $request->validate([
             'id_siswa' => 'required|exists:uang_kas,id_siswa',
-            'id_bulan_pembayaran' => 'required|exists:bulan_pembayaran,id', // Tambahkan ini
+            'id_bulan_pembayaran' => 'required|exists:bulan_pembayaran,id',
             'minggu_ke' => 'required|string|in:minggu_ke_1,minggu_ke_2,minggu_ke_3,minggu_ke_4',
             'nilai' => 'required|numeric|max:' . $pembayaranPerminggu,
         ]);
 
-        // Logika disable minggu sebelumnya jika minggu setelahnya sudah penuh
         $mingguKeMap = [
             'minggu_ke_1' => 1,
             'minggu_ke_2' => 2,
@@ -87,6 +91,9 @@ class DetailBulanPembayaranController extends Controller
             }
         }
 
+        // Simpan data sebelumnya untuk keperluan riwayat
+        $nilaiSebelum = $uangKas->{$request->minggu_ke};
+
         // Update nilai minggu yang diinginkan
         $uangKas->{$request->minggu_ke} = $request->nilai;
         $uangKas->save();
@@ -102,6 +109,14 @@ class DetailBulanPembayaranController extends Controller
         // Set status_lunas menjadi 1 jika semua minggu sudah terbayar
         $uangKas->status_lunas = $allWeeksPaid ? 1 : 0;
         $uangKas->save();
+
+        // Tambahkan data ke tabel riwayat_uang_kas
+        RiwayatUangKas::create([
+            'id_user' => Auth::id(),
+            'id_uang_kas' => $uangKas->id,
+            'aksi' => "Mengubah pembayaran siswa {$siswa->nama_siswa} untuk {$request->minggu_ke} dari Rp. " . number_format($nilaiSebelum) . " menjadi Rp. " . number_format($request->nilai),
+            'tanggal' => now(),
+        ]);
 
         return response()->json(['success' => true]);
     }

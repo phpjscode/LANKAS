@@ -18,15 +18,15 @@
                             <p class="text-sm">entries</p>
                         </div>
                         <div class="flex items-center space-x-2 mb-4">
-                            <label for="search" class="text-sm font-medium text-gray-700">Search:</label>
+                            <label for="search" class="text-sm font-medium text-gray-700">Cari:</label>
                             <input type="text" id="search" name="search" class="p-1 text-sm border rounded w-40"
-                                placeholder="Cari pengeluaran...">
+                                placeholder="data pengeluaran...">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <x-table-riwayat-pengeluaran :riwayatPengeluaran="$riwayatPengeluaran"></x-table-riwayat-pengeluaran>
+            <x-table-riwayat-uang-kas :riwayatUangKas="$riwayatUangKas"></x-table-riwayat-uang-kas>
 
             <div id="tambahModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center p-4">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md sm:w-1/3">

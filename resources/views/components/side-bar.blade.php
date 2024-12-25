@@ -59,6 +59,13 @@
     aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-800">
         <ul class="space-y-2 font-medium">
+            <li class="border-b border-gray-700">
+                <a href="{{ route('index') }}"
+                    class="flex items-center justify-center p-2 pb-4 text-white rounded-lg group">
+                    <img src="{{ asset('images/alanxcode.jpg') }}" alt="Alan X Code" class="h-10 w-10 rounded-full">
+                    <span class="ms-3 text-2xl">LANKAS</span>
+                </a>
+            </li>
             <li>
                 <a href="{{ route('profile') }}" class="flex items-center p-2 text-white rounded-lg bg-gray-600 group">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-5 h-5 text-white"
@@ -134,6 +141,16 @@
                 </a>
             </li>
             <li class="border-t border-gray-700">
+                <a href="{{ route('riwayatuangkas') }}"
+                    class="flex items-center p-2 text-white rounded-lg group hover:bg-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#ffffff" class="w-5 h-5">
+                        <path
+                            d="M360-840v-80h240v80H360Zm80 440h80v-240h-80v240Zm40 320q-74 0-139.5-28.5T226-186q-49-49-77.5-114.5T120-440q0-74 28.5-139.5T226-694q49-49 114.5-77.5T480-800q62 0 119 20t107 58l56-56 56 56-56 56q38 50 58 107t20 119q0 74-28.5 139.5T734-186q-49 49-114.5 77.5T480-80Zm0-80q116 0 198-82t82-198q0-116-82-198t-198-82q-116 0-198 82t-82 198q0 116 82 198t198 82Zm0-280Z" />
+                    </svg>
+                    <span class="ms-3">Riwayat Uang Kas</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('riwayatpengeluaran') }}"
                     class="flex items-center p-2 text-white rounded-lg group hover:bg-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#ffffff" class="w-5 h-5">
@@ -143,6 +160,7 @@
                     <span class="ms-3">Riwayat Pengeluaran</span>
                 </a>
             </li>
+
         </ul>
     </div>
 </aside>
