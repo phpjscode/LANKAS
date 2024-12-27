@@ -13,13 +13,11 @@ class IndexController extends Controller
      */
     public function showDashboard()
     {
-        // Menghitung jumlah siswa
         $siswa = Siswa::count();
 
-        // Mengembalikan view dengan data yang diperlukan
         return view('index', [
-            'title' => 'Dashboard', // Judul halaman
-            'siswa' => $siswa,      // Jumlah siswa
+            'title' => 'Dashboard',
+            'siswa' => $siswa,
         ]);
     }
 }
