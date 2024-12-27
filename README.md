@@ -22,4 +22,8 @@
 
         return $pdf->download('laporan_bulanan.pdf'); 
 ```
+- В проекте был использован `tailwind`. Чтобы его настроить нужно установить пакеты ``npm run build``, затем нужно
+собрать проект ``vite build``. В итоге, стили появятся в директории ``\build\assets\``. Ссылка на сгенерированные 
+ресурсы ``vite`` происходит самым обычным образом ``@vite(['resources/css/app.css', 'resources/js/app.js'])``.
+- Имеются компоненты ``Blade``
 
