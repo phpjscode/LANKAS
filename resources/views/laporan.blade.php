@@ -9,7 +9,7 @@
                         <div class="flex flex-col space-y-4 max-w-xs">
                             <div>
                                 <label for="bulan">Pilih Bulan:</label>
-                                <select name="bulan" id="bulan" required>
+                                <select name="bulan" id="bulan" class="capitalize" required>
                                     @foreach ($bulanPembayaran as $bulan)
                                         <option value="{{ $bulan->id }}">{{ $bulan->nama_bulan }} | {{ $bulan->tahun }}
                                         </option>
@@ -21,11 +21,11 @@
                                 <h1 class="text-2xl">{{ $title }} Pengeluaran</h1>
                                 <div>
                                     <label for="start_date">Dari Tanggal:</label>
-                                    <input type="date" name="start_date" id="start_date" required>
+                                    <input type="date" name="start_date" id="start_date">
                                 </div>
                                 <div>
                                     <label for="end_date">Sampai Tanggal:</label>
-                                    <input type="date" name="end_date" id="end_date" required>
+                                    <input type="date" name="end_date" id="end_date">
                                 </div>
                             </div>
                             <button type="submit"

@@ -12,17 +12,13 @@ class UangKasController extends Controller
 {
     public function showUangKas()
     {
-        // Mengambil semua bulan pembayaran
         $bulanPembayaran = BulanPembayaran::all();
 
-        // Loop untuk setiap bulanPembayaran dan hitung total uang kas untuk bulan tersebut
         foreach ($bulanPembayaran as $bulan) {
-            // Mengambil total uang kas untuk bulan tertentu berdasarkan id
             $totalUang = UangKas::where('id_bulan_pembayaran', $bulan->id)
                 ->selectRaw('SUM(minggu_ke_1 + minggu_ke_2 + minggu_ke_3 + minggu_ke_4) as total')
-                ->value('total'); // Ambil hasil sebagai total uang kas untuk bulan
+                ->value('total');
 
-            // Menambahkan total uang ke setiap bulanPembayaran
             $bulan->total_uang_kas = $totalUang;
         }
 
@@ -48,10 +44,7 @@ class UangKasController extends Controller
             'pembayaran_perminggu' => 'required|numeric',
         ]);
 
-        // Jika validasi lolos, lanjutkan menyimpan data
         $bulanPembayaran = BulanPembayaran::create($validated);
-
-        // Mengirimkan event
         event(new BulanPembayaranDitambahkan($bulanPembayaran));
 
         return response()->json(['success' => 'Bulan pembayaran berhasil ditambahkan!']);
@@ -59,8 +52,8 @@ class UangKasController extends Controller
 
     public function destroyBulanPembayaran($id)
     {
-        $bulan = BulanPembayaran::findOrFail($id); // Cari data berdasarkan ID
-        $bulan->delete(); // Hapus data
+        $bulan = BulanPembayaran::findOrFail($id);
+        $bulan->delete();
 
         return response()->json(['success' => 'Bulan pembayaran berhasil dihapus!']);
     }
